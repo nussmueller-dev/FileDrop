@@ -1,1 +1,18 @@
-/* You can add global styles to this file, and also import other style files */
+@import "src/app/base/reset/reset.scss";
+@import "src/app/shared/style/colors.scss";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: $background;
+    background: linear-gradient(to bottom, #6573ff, #dff1ff);
+}
+
+*{
+    color: $font-color;
+}

@@ -1,20 +1,17 @@
-<div class="box">
-    <div class="container">
-        <div class="form">
-            <h2>Admin Panel</h2>
-            <form>
-                <div class="inputBox">
-                    <input type="text" name="" placeholder="Username">
-                </div>
-                <div class="inputBox">
-                    <input type="password" name="" placeholder="Password">
-                </div>
-                <div class="inputBox">
-                    <input routerLink="/home" type="submit" value="Login">
-                </div>
-                <p class="forgot">Forgot password? <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Click Here</a></p>
-                <p class="forgot">Need an account? <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Sign up</a></p>
-            </form>
-        </div>
+<div class="form">
+    <h2>Login</h2>
+    <div class="input">
+      <div class="inputBox">
+        <Label>Benutzername</Label>
+        <input type="text" name="username" placeholder="smth">
+      </div>
+      <div class="inputBox">
+        <Label>Passwort</Label>
+        <input type="password" name="password" placeholder="******">
+      </div>
+      <div class="inputBox">
+        <input type="submit" name="submit" value="Einloggen" routerLink="/upload">
+      </div>
     </div>
-</div>
+    <p class="forgot">Passwort vergessen? <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Hier klicken</a></p>
+  </div>

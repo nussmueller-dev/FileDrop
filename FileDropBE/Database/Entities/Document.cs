@@ -12,5 +12,7 @@ namespace FileDropBE.Database.Entities {
     public string Path { get; set; }
     public double Size { get; set; }
     public DateTime Date { get; set; }
+    public bool VirusProofed { get; set; }
+    public bool VirusFound { get; set; }
   }
 }

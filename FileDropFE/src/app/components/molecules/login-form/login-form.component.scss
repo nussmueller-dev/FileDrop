@@ -1,94 +1,86 @@
-:host {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center;
-}
+@import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900&display=swap");
+@import "src/app/shared/style/colors.scss";
 
-.box {
-    position: relative;
-}
-
-.container {
-    position: relative;
-    width: 400px;
-    min-height: 400px;
-    background: #000;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(5px);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
 .form {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    padding: 40px;
-    box-sizing: border-box;
+  position: relative;
+  width: 350px;
+  padding: 40px 40px 60px;
+  background: $dark-background;
+  /*border: 1px solid #2e2f30;*/
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: -5px -5px 10px rgba(255, 255, 255, 0.05),
+    5px 5px 15px rgba(0, 0, 0, 0.5);
 }
 
 .form h2 {
-    position: relative;
-    margin: 0;
-    padding: 0;
-    color: #fff;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    margin-bottom: 40px;
+  color: #c7c7c7;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
 
-.inputBox {
-    width: 100%;
-    margin-top: 20px;
+.form .input {
+  text-align: left;
+  margin-top: 40px;
 }
 
-.inputBox input {
-    width: 100%;
-    background: transparent;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 35px;
-    background: rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-left: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-    outline: none;
-    font-size: 16px;
-    letter-spacing: 1px;
-    color: #fff;
+.form .input .inputBox {
+  margin-top: 20px;
 }
 
-::placeholder {
-    color: #fff;
+.form .input .inputBox label {
+  display: block;
+  color: #868686;
+  margin-bottom: 5px;
+  font-size: 18px;
 }
 
-.inputBox input[type="submit"] {
-    background: #fff;
-    color: #666;
-    border: none;
-    font-weight: 600;
-    max-width: 100px;
-    cursor: pointer;
-    margin-bottom: 20px;
+.form .input .inputBox input {
+  width: 100%;
+  height: 50px;
+  background: $dark-background;
+  border: none;
+  outline: none;
+  border-radius: 40px;
+  padding: 5px 15px;
+  color: #fff;
+  font-size: 18px;
+  color: #03a9f4;
+  box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.form .input .inputBox input[type="submit"] {
+  margin-top: 20px;
+  box-shadow: -2px -2px 6px rgba(255, 255, 255, 0.1),
+    2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.form .input .inputBox input[type="submit"]:active {
+  color: #006c9c;
+  margin-top: 20px;
+  box-shadow: inset -2px -2px 6px rgba(255, 255, 255, 0.1),
+    inset 2px 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.form .input .inputBox input::placehholder {
+  color: #555;
+  font-size: 18px;
 }
 
 .forgot {
-    margin-top: 5px;
-    color: #fff;
-    padding: 2px;
+  margin-top: 30px;
+  color: #555;
 }
 
 .forgot a {
-    color: #fff;
-    font-weight: 600;
+  color: #ff0067;
 }

@@ -36,8 +36,10 @@ namespace FileDropBE {
         x.MultipartBodyLengthLimit = int.MaxValue;
       });
 
-      services.AddDbContextFactory<DB_Context>(b =>
-        b.UseMySql(ServerVersion.AutoDetect("")));
+      var connectionString = "Data Source = localhost; Initial Catalog = filedrop; User id = main; Password = sml12345;";
+
+      services.AddDbContextPool<DB_Context>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +57,11 @@ namespace FileDropBE {
       app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
       });
+
+      using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {
+        var context = serviceScope.ServiceProvider.GetRequiredService<DB_Context>();
+        context.Database.Migrate();
+      }
     }
   }
 }

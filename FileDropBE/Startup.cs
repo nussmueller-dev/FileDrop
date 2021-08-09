@@ -1,4 +1,5 @@
 using FileDropBE.Database;
+using FileDropBE.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -31,6 +32,14 @@ namespace FileDropBE {
         c.SwaggerDoc("v1", new OpenApiInfo { Title = "FileDropBE", Version = "v1" });
       });
 
+      services.AddCors(options => {
+        options.AddDefaultPolicy(builder => builder
+        .SetIsOriginAllowed(_ => true)
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials());
+      });
+
       services.Configure<FormOptions>(x => {
         x.ValueLengthLimit = int.MaxValue;
         x.MultipartBodyLengthLimit = int.MaxValue;
@@ -40,6 +49,8 @@ namespace FileDropBE {
 
       services.AddDbContextPool<DB_Context>(options =>
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+      services.AddSingleton<FileLogic>();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +60,8 @@ namespace FileDropBE {
         app.UseSwagger();
         app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FileDropBE v1"));
       }
+
+      app.UseCors();
 
       app.UseRouting();
 

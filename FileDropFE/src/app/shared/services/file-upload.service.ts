@@ -15,9 +15,12 @@ export class FileUploadService {
     var formData: any = new FormData();
     formData.append("file", file);
 
-    return this.http.post(environment.BACKENDURL + '/files/upload', formData, {
+    return this.http.post(environment.BACKENDURL + 'files/upload', formData, {
       reportProgress: true,
-      observe: 'events'
+      observe: 'events',
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      }
     }).pipe(
       catchError(this.errorMgmt)
     )

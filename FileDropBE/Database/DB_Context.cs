@@ -12,11 +12,11 @@ namespace FileDropBE.Database {
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<Document> Documents { get; set; }
+    public DbSet<File> Files { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
       modelBuilder.Entity<User>().ToTable("User");
-      modelBuilder.Entity<Document>().ToTable("Document");
+      modelBuilder.Entity<File>().ToTable("Files");
     }
   }
 }

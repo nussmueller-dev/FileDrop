@@ -3,18 +3,11 @@ using FileDropBE.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FileDropBE {
   public class Startup {
@@ -45,7 +38,11 @@ namespace FileDropBE {
         x.MultipartBodyLengthLimit = int.MaxValue;
       });
 
-      var connectionString = "Data Source = localhost; Initial Catalog = filedrop; User id = main; Password = sml12345;";
+#if (DEBUG)
+      var connectionString = Configuration.GetConnectionString("DebugConnection");
+#else
+      var connectionString = Configuration.GetConnectionString("ServerConnection");
+#endif
 
       services.AddDbContextPool<DB_Context>(options =>
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));

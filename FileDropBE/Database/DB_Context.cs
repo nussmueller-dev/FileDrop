@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FileDropBE.Database {
   public class DB_Context : DbContext {
     public DB_Context(DbContextOptions<DB_Context> options) : base(options) {
-      this.Database.EnsureCreated();
+      Database.EnsureCreated();
     }
 
     public DbSet<User> Users { get; set; }

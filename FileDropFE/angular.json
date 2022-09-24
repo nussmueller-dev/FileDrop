@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "FileDropFE": {
+    "FileDrop": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -25,11 +25,11 @@
         "@schematics/angular:pipe": {
           "skipTests": true
         },
-        "@schematics/angular:service": {
+        "@schematics/angular:resolver": {
           "skipTests": true
         },
-        "@schematics/angular:application": {
-          "strict": true
+        "@schematics/angular:service": {
+          "skipTests": true
         }
       },
       "root": "",
@@ -39,7 +39,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/FileDropFE",
+            "outputPath": "dist/file-drop",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -91,10 +91,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FileDropFE:build:production"
+              "browserTarget": "FileDrop:build:production"
             },
             "development": {
-              "browserTarget": "FileDropFE:build:development"
+              "browserTarget": "FileDrop:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -102,7 +102,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FileDropFE:build"
+            "browserTarget": "FileDrop:build"
           }
         },
         "test": {
@@ -125,6 +125,5 @@
         }
       }
     }
-  },
-  "defaultProject": "FileDropFE"
+  }
 }

@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css?family=Orbitron");
+
+:host {
+    display: block;
+    position: relative;
+
+    * {
+        transition: all 0.3s ease;
+    }
+
+    &.drag-over {
+        .light {
+            scale: 1.2;
+        }
+    }
+
+    &.drag-over-portal {
+        .stargate {
+            box-shadow: inset 0 0 0 4px #3b464e, inset 0 0 0 6px #cb91ff, inset 0 0 0 20px #3b464e,
+                inset 0 0 0 30px #33363c, inset 0 0 20px 30px #ffffff, inset 0 0 50px 50px #3cf324,
+                0px 1px 20px 1px #d6f6ff;
+        }
+
+        .stargateBg {
+            background-color: #3f904c;
+        }
+
+        .bubble {
+            background-color: #2eff8c;
+        }
+
+        .light {
+            scale: 1.2;
+            border-top: 40px solid #37fb47;
+        }
+
+        .light:after {
+            background: #37fb47;
+        }
+
+        .light:before {
+            background: #37fb47;
+        }
+    }
+}
+
+h2 {
+    position: absolute;
+    font-size: 200%;
+    line-height: 30px;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+    line-height: 40px;
+    text-align: center;
+}
+
+svg {
+    position: absolute;
+}
+
+.file-upload {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 999;
+    opacity: 0;
+}
+
+.stargate {
+    position: relative;
+    margin: 20px 20px;
+    border: solid #292929 35px;
+    border-radius: 50%;
+    width: 500px;
+    height: 500px;
+    z-index: 5;
+    box-shadow: inset 0 0 0 4px #3b464e, inset 0 0 0 6px #cb91ff, inset 0 0 0 20px #3b464e, inset 0 0 0 30px #33363c,
+        inset 0 0 20px 30px #ffffff, inset 0 0 50px 50px #24d6f3, 0px 1px 20px 1px #d6f6ff;
+}
+
+.stargateBg {
+    position: absolute;
+    top: 22px;
+    left: 270px;
+    background-color: #3f8c90;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    width: 495px;
+    height: 495px;
+    z-index: -2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stargateWater {
+    position: absolute;
+    top: 22px;
+    left: 270px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    width: 495px;
+    height: 495px;
+    z-index: -2;
+    filter: url("#goo");
+    -webkit-filter: url("#goo");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 4;
+}
+
+.bubble {
+    filter: url("#goo");
+    position: absolute;
+    background-color: #2effee;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    animation-name: gloop;
+    animation-iteration-count: infinite;
+    animation-direction: reverse;
+    animation-timing-function: ease-out;
+    @for $i from 1 through 25 {
+        &:nth-child(#{$i}) {
+            $x: random(1500) - 750 + "px";
+            $y: random(1500) - 750 + "px";
+            transform: translate(#{$x}, #{$y});
+            animation-duration: random() * 2s + 2s;
+            animation-delay: random() * -3s;
+        }
+    }
+}
+
+.light {
+    position: absolute;
+    width: 50px;
+    height: 0;
+    border: 15px solid rgba(0, 0, 0, 0);
+    border-bottom: 0 solid;
+    border-top: 40px solid #37fbed;
+}
+
+.light:after {
+    content: "";
+    position: absolute;
+    top: -31px;
+    right: -18px;
+    width: 10px;
+    height: 35px;
+    border: none;
+    background: #37fbed;
+    transform: skewX(-20deg);
+    box-shadow: -17px -7px 11px 2px #b5f9f3;
+}
+
+.light:before {
+    content: "";
+    position: absolute;
+    top: -31px;
+    left: -18px;
+    width: 10px;
+    height: 35px;
+    border: none;
+    background: #37fbed;
+    transform: skewX(-160deg);
+}
+
+.light:nth-of-type(1) {
+    top: -4px;
+    left: 50%;
+    transform: translate(-50%, -100%);
+}
+
+.light:nth-of-type(8) {
+    bottom: -5px;
+    left: 50%;
+    transform: translate(-50%, 100%) rotate(180deg);
+}
+
+.light:nth-of-type(2) {
+    transform: translate(100%, -50%) rotate(90deg);
+    right: 0px;
+    top: 50%;
+}
+
+.light:nth-of-type(3) {
+    transform: translate(-100%, -50%) rotate(270deg);
+    left: 0px;
+    top: 50%;
+}
+
+.light:nth-of-type(4) {
+    transform: translate(-100%, -50%) rotate(310deg);
+    left: 14%;
+    top: 13.5%;
+}
+
+.light:nth-of-type(5) {
+    transform: translate(100%, -50%) rotate(49deg);
+    right: 13.5%;
+    top: 13.5%;
+}
+
+.light:nth-of-type(6) {
+    transform: translate(-100%, 50%) rotate(230deg);
+    left: 14%;
+    bottom: 13.5%;
+}
+
+.light:nth-of-type(7) {
+    transform: translate(100%, 50%) rotate(130deg);
+    right: 13.5%;
+    bottom: 13.5%;
+}
+
+.glitch {
+    opacity: 0;
+    color: #2effee;
+    animation: glitch-top 1.8s steps(2) alternate infinite;
+}
+
+@keyframes gloop {
+    from {
+    }
+    to {
+        transform: translate(0%, 0%);
+    }
+}
+
+@keyframes glitch-top {
+    0% {
+        opacity: 1;
+        clip-path: inset(24% 0 50% 0);
+        transform: translate(-52%, -50%);
+    }
+
+    5% {
+        opacity: 1;
+        clip-path: inset(58% 0 16% 0);
+        transform: translate(-48%, -50%);
+    }
+
+    10% {
+        opacity: 1;
+        clip-path: inset(9% 0 60% 0);
+        transform: translate(-52%, -50%);
+    }
+
+    15% {
+        opacity: 1;
+        clip-path: inset(36% 0 29% 0);
+        transform: translate(-52%, -50%);
+    }
+
+    20% {
+        opacity: 1;
+        clip-path: inset(3% 0 52% 0);
+        transform: translate(-48%, -50%);
+    }
+
+    25% {
+        opacity: 1;
+        clip-path: inset(31% 0 29% 0);
+        transform: translate(-52%, -50%);
+    }
+
+    30% {
+        opacity: 1;
+        clip-path: inset(40% 0 31% 0);
+        transform: translate(-47%, -50%);
+    }
+
+    35% {
+        opacity: 1;
+        clip-path: inset(58% 0 15% 0);
+        transform: translate(-48%, -50%);
+    }
+
+    40% {
+        opacity: 1;
+        clip-path: inset(21% 0 83% 0);
+        transform: translate(-52%, -50%);
+    }
+
+    45% {
+        opacity: 1;
+        clip-path: inset(55% 0 28% 0);
+        transform: translate(-47%, -50%);
+    }
+
+    50% {
+        opacity: 1;
+        clip-path: inset(86% 0 18% 0);
+        transform: translate(-52%, -50%);
+    }
+    51% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}

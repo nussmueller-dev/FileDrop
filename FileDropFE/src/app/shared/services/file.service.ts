@@ -16,10 +16,7 @@ export class FileService {
 
     return this.http.post(environment.BACKENDURL + 'files/upload', formData, {
       reportProgress: true,
-      observe: 'events',
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      }
+      observe: 'events'
     }).pipe(
       catchError(this.errorMgmt)
     )

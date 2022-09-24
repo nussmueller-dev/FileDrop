@@ -1,5 +1,7 @@
 import { HttpEvent, HttpEventType } from '@angular/common/http';
-import { Component, EventEmitter, HostBinding, HostListener, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Output } from '@angular/core';
+import * as _ from 'lodash';
+import { lastValueFrom } from 'rxjs';
 import { FileState } from 'src/app/shared/util/fileState';
 import { FileStatusEnum } from 'src/app/shared/util/fileStatusEnum';
 import { FileService } from './../../shared/services/file.service';
@@ -9,7 +11,7 @@ import { FileService } from './../../shared/services/file.service';
   templateUrl: './portal.component.html',
   styleUrls: ['./portal.component.scss']
 })
-export class PortalComponent implements OnInit {
+export class PortalComponent {
   fileStates: Array<FileState> = new Array<FileState>();
 
   @Output() uploadingFilesChange = new EventEmitter<Array<FileState>>();
@@ -40,9 +42,6 @@ export class PortalComponent implements OnInit {
 
   constructor(private fileService: FileService) { }
 
-  ngOnInit(): void {
-  }
-
   async uploadFiles(event: any) {
     let fileList: FileList = event.target.files;
 
@@ -69,13 +68,18 @@ export class PortalComponent implements OnInit {
             console.log(`Uploaded! ${progress}%`);
             break;
           case HttpEventType.Response:
-            console.log('User successfully created!', event.body);
             fileState.status = FileStatusEnum.Uploaded;
         }
       });
 
+      lastValueFrom(observable).catch(error => {
+        fileState.status = FileStatusEnum.Error;
+      });
+
       this.fileStates.push(fileState);
     }
+
+    this.fileStates = _.orderBy(this.fileStates, ['status'], ['asc']);
 
     this.uploadingFilesChange.emit(this.fileStates);
   }

@@ -3,7 +3,8 @@
 </div>
 <div class="file-list-holder">
   <div class="file-list">
-    <div class="file" *ngFor="let file of uploadingFiles">
+    <div class="file" *ngFor="let file of uploadingFiles"
+      [ngClass]="{error: file.status == fileStatusEnum.Error, finished: file.status == fileStatusEnum.Uploaded }">
       <div class="progressbar" [ngStyle]="{ width: file.progress + '%' }"></div>
       <div class="shadows"></div>
       <div class="content">

@@ -73,6 +73,20 @@ $animation-time: 1s;
     margin-bottom: 15px;
   }
 
+  &.error {
+    .progressbar {
+      background-color: #921313;
+      width: 100% !important;
+    }
+  }
+
+  &.finished {
+    .progressbar {
+      background-color: rgb(48, 146, 19);
+      width: 100% !important;
+    }
+  }
+
   .progressbar,
   .shadows,
   .content {
@@ -83,7 +97,7 @@ $animation-time: 1s;
   }
 
   .progressbar {
-    background-color: rgb(48, 146, 19);
+    background-color: rgb(19, 110, 146);
   }
 
   .shadows {

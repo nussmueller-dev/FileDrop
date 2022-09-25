@@ -21,6 +21,14 @@ body {
   color: $font-color;
 }
 
+svg-icon {
+  svg {
+    height: 100%;
+    width: 100%;
+    fill: currentColor;
+  }
+}
+
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;

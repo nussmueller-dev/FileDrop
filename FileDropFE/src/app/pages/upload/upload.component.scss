@@ -9,6 +9,7 @@ $animation-time: 1s;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  overflow: hidden;
 
   &.uploading-file {
     .portal-holder {
@@ -21,6 +22,29 @@ $animation-time: 1s;
       .file-list {
         opacity: 1;
       }
+    }
+  }
+}
+
+header {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
+
+  .account-icon {
+    height: 50x;
+    width: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.2);
+      transform-origin: top right;
     }
   }
 }

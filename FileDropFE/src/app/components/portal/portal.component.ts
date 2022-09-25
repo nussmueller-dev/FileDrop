@@ -55,7 +55,7 @@ export class PortalComponent {
         switch (event.type) {
           case HttpEventType.Sent:
             console.log('Request has been made!');
-            fileState.status = FileStatusEnum.Pending;
+            fileState.status = FileStatusEnum.Uploading;
             break;
           case HttpEventType.ResponseHeader:
             console.log('Response header has been received!');
@@ -63,7 +63,6 @@ export class PortalComponent {
             break;
           case HttpEventType.UploadProgress:
             let progress = Math.round(event.loaded / (event.total ?? 1) * 100);
-            fileState.status = FileStatusEnum.Uploading;
             fileState.progress = progress;
             console.log(`Uploaded! ${progress}%`);
             break;
@@ -74,6 +73,7 @@ export class PortalComponent {
 
       lastValueFrom(observable).catch(error => {
         fileState.status = FileStatusEnum.Error;
+        console.log('Error while uploading!');
       });
 
       this.fileStates.push(fileState);

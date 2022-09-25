@@ -1,0 +1,11 @@
+<header>
+  <a routerLink="/upload">
+    <img src="assets/icons/upload-icon.svg" alt="upload icon" class="upload-icon">
+  </a>
+</header>
+<main *ngIf="!isLoggedIn">
+  <app-login-form></app-login-form>
+</main>
+<main *ngIf="isLoggedIn">
+
+</main>

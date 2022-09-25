@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./overview.component.scss']
 })
 export class OverviewComponent implements OnInit {
+  isLoggedIn = false;
 
   constructor() { }
 
   ngOnInit(): void {
+
   }
 
 }

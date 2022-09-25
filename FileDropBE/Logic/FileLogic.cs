@@ -8,30 +8,36 @@ namespace FileDropBE.Logic {
     const string uploadPath = "uploads";
     const string fileNamePrefix = "file";
 
-    public int SaveFile(DB_Context context, IFormFile form) {
+    private readonly DB_Context _dbContext;
+
+    public FileLogic(DB_Context dB_Context) {
+      _dbContext = dB_Context;
+    }
+
+    public int SaveFile(IFormFile form) {
       Database.Entities.File file;
       var fileName = fileNamePrefix;
 
       file = BindingModelFactory.GetFileFromForm(form);
-      context.Files.Add(file);
-      context.SaveChanges();
+      _dbContext.Files.Add(file);
+      _dbContext.SaveChanges();
 
       fileName += file.Id;
       fileName += file.FileType;
       var path = SaveFileToPath(form, fileName);
       file.Path = path;
-      context.SaveChanges();
+      _dbContext.SaveChanges();
 
       return file.Id;
     }
 
-    public void DeleteFile(DB_Context context, Database.Entities.File file) {
-      var files = context.Files;
+    public void DeleteFile(Database.Entities.File file) {
+      var files = _dbContext.Files;
 
       File.Delete(file.Path);
 
       files.Remove(file);
-      context.SaveChanges();
+      _dbContext.SaveChanges();
     }
 
     private string SaveFileToPath(IFormFile form, string fileName) {

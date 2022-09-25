@@ -19,11 +19,16 @@ namespace FileDropBE {
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services) {
+#if (DEBUG)
+      var connectionString = Configuration.GetConnectionString("DebugConnection");
+#else
+      var connectionString = Configuration.GetConnectionString("ServerConnection");
+#endif
 
-      services.AddControllers();
-      services.AddSwaggerGen(c => {
-        c.SwaggerDoc("v1", new OpenApiInfo { Title = "FileDropBE", Version = "v1" });
-      });
+      services.AddDbContextPool<DB_Context>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+      services.AddScoped<FileLogic>();
 
       services.AddCors(options => {
         options.AddDefaultPolicy(builder => builder
@@ -38,16 +43,10 @@ namespace FileDropBE {
         x.MultipartBodyLengthLimit = int.MaxValue;
       });
 
-#if (DEBUG)
-      var connectionString = Configuration.GetConnectionString("DebugConnection");
-#else
-      var connectionString = Configuration.GetConnectionString("ServerConnection");
-#endif
-
-      services.AddDbContextPool<DB_Context>(options =>
-        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
-      services.AddSingleton<FileLogic>();
+      services.AddControllers();
+      services.AddSwaggerGen(c => {
+        c.SwaggerDoc("v1", new OpenApiInfo { Title = "FileDropBE", Version = "v1" });
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

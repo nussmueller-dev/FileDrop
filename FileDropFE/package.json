@@ -20,6 +20,7 @@
     "@angular/router": "^14.2.0",
     "angular-svg-icon": "^14.0.0",
     "lodash": "^4.17.21",
+    "luxon": "^3.0.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -30,6 +31,7 @@
     "@angular/compiler-cli": "^14.2.0",
     "@types/jasmine": "~4.0.0",
     "@types/lodash": "^4.14.185",
+    "@types/luxon": "^3.0.1",
     "jasmine-core": "~4.3.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",

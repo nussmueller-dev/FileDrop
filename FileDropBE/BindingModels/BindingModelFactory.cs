@@ -1,23 +1,47 @@
-﻿using FileDropBE.Database.Entities;
+﻿using FileDropBE.Database;
+using FileDropBE.Database.Entities;
+using FileDropBE.Logic;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FileDropBE.BindingModels {
   public class BindingModelFactory {
-    //public static User GetUserFromBindingModel(RegisterBindingModel model) {
-    //  User user = new User();
+    private readonly UserLogic _userLogic;
+    private readonly DB_Context _context;
 
-    //  user.Username = model.Username;
-    //  user.Email = model.Email;
-    //  user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+    public BindingModelFactory(UserLogic userLogic, DB_Context context) {
+      _userLogic = userLogic;
+      _context = context;
+    }
 
-    //  return user;
-    //}
+    public User GetUserFromRegisterBindingModel(RegisterUserBindingModel model) {
+      User user = new User();
 
-    public static File GetFileFromForm(IFormFile form) {
+      user.Username = model.Username;
+      user.Salt = _userLogic.GetSalt();
+      user.PasswordHash = _userLogic.HashPassword(model.Password, user.Salt);
+
+      return user;
+    }
+
+    public User GetUserFromLoginBindingModel(LoginUserBindingModel model) {
+      var user = _context.Users.FirstOrDefault(x => x.Username == model.Username);
+
+      if (user is null) {
+        return null;
+      }
+
+      var passwordHash = _userLogic.HashPassword(model.Password, user.Salt);
+
+      if (user.PasswordHash == passwordHash) {
+        return null;
+      }
+
+      return user;
+    }
+
+    public File GetFileFromForm(IFormFile form) {
       File file = new File();
 
       file.Name = GetFileName(form);
@@ -29,13 +53,13 @@ namespace FileDropBE.BindingModels {
       return file;
     }
 
-    private static string GetFileName(IFormFile form) {
+    private string GetFileName(IFormFile form) {
       var nameSplit = form.FileName.Split('.').ToList();
       nameSplit.Remove(nameSplit.Last());
       return string.Join('.', nameSplit);
     }
 
-    private static string GetFileType(IFormFile form) {
+    private string GetFileType(IFormFile form) {
       var nameSplit = form.FileName.Split('.').ToList();
       return "." + nameSplit.Last();
     }

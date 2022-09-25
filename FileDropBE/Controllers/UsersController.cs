@@ -1,7 +1,9 @@
-﻿using FileDropBE.Database;
-using FileDropBE.Database.Entities;
+﻿using FileDropBE.BindingModels;
+using FileDropBE.Database;
+using FileDropBE.Logic;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using System.Linq;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,38 +12,37 @@ namespace FileDropBE.Controllers {
   [ApiController]
   public class UsersController : ControllerBase {
     private DB_Context _context;
+    private BindingModelFactory _bindingModelFactory;
+    private UserLogic _userLogic;
 
-    public UsersController(DB_Context context) {
-        _context = context;
+    public UsersController(DB_Context context, BindingModelFactory bindingModelFactory, UserLogic userLogic) {
+      _context = context;
+      _bindingModelFactory = bindingModelFactory;
+      _userLogic = userLogic;
     }
 
-    // GET: api/<UserController>
-    [HttpGet("test")]
-    public IEnumerable<string> Get() {
-      _context.Users.Add(new User() { Email = "test@gmail.com", Username = "Niggo", IsOwner = false, PasswordHash = "aösodihf" });
+    [HttpPost("register")]
+    public IActionResult RegisterUser(RegisterUserBindingModel bindingModel) {
+      if (_context.Users.Count() > 0) {
+        return BadRequest("There already is a User");
+      }
+
+      var user = _bindingModelFactory.GetUserFromRegisterBindingModel(bindingModel);
+      _context.Users.Add(user);
       _context.SaveChanges();
-      return new string[] { "value1", "value2" };
+
+      return Ok(_userLogic.BuildToken(user));
     }
 
-    // GET api/<UserController>/5
-    [HttpGet("{id}")]
-    public string Get(int id) {
-      return "value";
-    }
+    [HttpPost("login")]
+    public IActionResult LoginUser(LoginUserBindingModel bindingModel) {
+      var user = _bindingModelFactory.GetUserFromLoginBindingModel(bindingModel);
 
-    // POST api/<UserController>
-    [HttpPost]
-    public void Post([FromBody] string value) {
-    }
+      if (user == null) { 
+        return Unauthorized();
+      }
 
-    // PUT api/<UserController>/5
-    [HttpPut("{id}")]
-    public void Put(int id, [FromBody] string value) {
-    }
-
-    // DELETE api/<UserController>/5
-    [HttpDelete("{id}")]
-    public void Delete(int id) {
+      return Ok(_userLogic.BuildToken(user));
     }
   }
 }

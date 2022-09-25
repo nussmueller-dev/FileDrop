@@ -1,4 +1,5 @@
-﻿using FileDropBE.Database;
+﻿using FileDropBE.Attributes;
+using FileDropBE.Database;
 using FileDropBE.Logic;
 using FileDropBE.ViewModels;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,16 @@ namespace FileDropBE.Controllers {
       _logic = logic;
     }
 
+    [RequestSizeLimit(MaxFileSize)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
+    [HttpPost("upload")]
+    public IActionResult UploadFile([FromForm] IFormFile file) {
+      var fileId = _logic.SaveFile(file);
+
+      return Ok(new { id = fileId });
+    }
+
+    [Authorize]
     [HttpGet("")]
     public IActionResult GetAllFiles() {
       var allFiles = _context.Files.ToList();
@@ -25,6 +36,7 @@ namespace FileDropBE.Controllers {
       return Ok(allFiles.Select(x => new FileViewModel(x)));
     }
 
+    [Authorize]
     [HttpGet("{id:int}/download")]
     public IActionResult GetDownload(int id) {
       var file = _context.Files.FirstOrDefault(x => x.Id == id);
@@ -36,15 +48,7 @@ namespace FileDropBE.Controllers {
       return PhysicalFile(file.Path, file.MimeType, file.Name + file.FileType);
     }
 
-    [RequestSizeLimit(MaxFileSize)]
-    [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
-    [HttpPost("upload")]
-    public IActionResult UploadFile([FromForm] IFormFile file) {
-      var fileId = _logic.SaveFile(file);
-
-      return Ok(new { id = fileId });
-    }
-
+    [Authorize]
     [HttpDelete("{id:int}")]
     public IActionResult DeleteFile(int id) {
       var file = _context.Files.FirstOrDefault(x => x.Id == id);

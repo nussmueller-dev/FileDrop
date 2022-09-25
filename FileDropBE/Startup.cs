@@ -1,3 +1,4 @@
+using FileDropBE.BindingModels;
 using FileDropBE.Database;
 using FileDropBE.Logic;
 using Microsoft.AspNetCore.Builder;
@@ -28,7 +29,10 @@ namespace FileDropBE {
       services.AddDbContextPool<DB_Context>(options =>
         options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
+      services.AddScoped<CurrentUserHelper>();
       services.AddScoped<FileLogic>();
+      services.AddScoped<UserLogic>();
+      services.AddScoped<BindingModelFactory>();
 
       services.AddCors(options => {
         options.AddDefaultPolicy(builder => builder

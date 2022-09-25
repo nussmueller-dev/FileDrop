@@ -7,5 +7,17 @@
   <app-login-form></app-login-form>
 </main>
 <main *ngIf="isLoggedIn">
-
+  <div class="file-list">
+    <div class="file" *ngFor="let file of files">
+      <span class="upload-date">{{file.date.toFormat('dd.MM.yyyy HH:mm')}}</span>
+      <span class="file-name">{{file.name}}</span>
+      <span class="file-type">{{file.fileType}}</span>
+      <img src="assets/icons/download-icon.svg" alt="download icon" class="download-icon icon"
+        (click)="downloadFile(file)">
+      <img src="assets/icons/delete-icon.svg" alt="delete icon" class="delete-icon icon"
+        *ngIf="!file.deleteButtonClicked" (click)="deleteFile(file)">
+      <img src="assets/icons/delete-forever-icon.svg" alt="delete icon" class="delete-forever-icon icon"
+        *ngIf="file.deleteButtonClicked" (click)="deleteFile(file)">
+    </div>
+  </div>
 </main>

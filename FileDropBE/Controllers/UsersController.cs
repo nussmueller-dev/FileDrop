@@ -21,7 +21,13 @@ namespace FileDropBE.Controllers {
       _userLogic = userLogic;
     }
 
+    [HttpGet("count")]
+    public IActionResult GetUsersCount() {
+      return Ok(_context.Users.Count());
+    }
+
     [HttpPost("register")]
+    [Produces("application/json")]
     public IActionResult RegisterUser(RegisterUserBindingModel bindingModel) {
       if (_context.Users.Count() > 0) {
         return BadRequest("There already is a User");
@@ -35,6 +41,7 @@ namespace FileDropBE.Controllers {
     }
 
     [HttpPost("login")]
+    [Produces("application/json")]
     public IActionResult LoginUser(LoginUserBindingModel bindingModel) {
       var user = _bindingModelFactory.GetUserFromLoginBindingModel(bindingModel);
 

@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { DateTimeInterceptor } from './config/date-time.interceptor';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { UploadComponent } from './pages/upload/upload.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    FormsModule,
     AngularSvgIconModule.forRoot(),
   ],
   providers: [

@@ -10,9 +10,13 @@ import { FileViewModel } from './../models/file-view-model';
 export class FileService {
   constructor(private http: HttpClient) {}
 
-  getAllFiles() {
+  getAllFiles(token: string) {
     return lastValueFrom(
-      this.http.get<Array<FileViewModel>>(environment.BACKENDURL + 'files')
+      this.http.get<Array<FileViewModel>>(environment.BACKENDURL + 'files', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
     );
   }
 
@@ -26,17 +30,24 @@ export class FileService {
     });
   }
 
-  async downloadFile(id: number) {
+  async downloadFile(id: number, token: string) {
     return lastValueFrom(
       this.http.get<Blob>(environment.BACKENDURL + `files/${id}/download`, {
         responseType: 'blob' as 'json',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
     );
   }
 
-  async deleteFile(id: number) {
+  async deleteFile(id: number, token: string) {
     return lastValueFrom(
-      this.http.delete(environment.BACKENDURL + `files/${id}`)
+      this.http.delete(environment.BACKENDURL + `files/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
     );
   }
 }

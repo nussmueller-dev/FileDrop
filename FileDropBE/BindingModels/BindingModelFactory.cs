@@ -34,7 +34,7 @@ namespace FileDropBE.BindingModels {
 
       var passwordHash = _userLogic.HashPassword(model.Password, user.Salt);
 
-      if (user.PasswordHash == passwordHash) {
+      if (user.PasswordHash != passwordHash) {
         return null;
       }
 

@@ -1,0 +1,36 @@
+version: "3.3"
+services:
+  filedrop:
+    image: "docker.nussmueller.dev/filedrop-fe"
+    container_name: FileDrop-FE
+    networks:
+      - proxy
+      - filedrop-internal
+    depends_on:
+      - filedrop-be
+    restart: unless-stopped
+  filedrop-be:
+    image: "docker.nussmueller.dev/filedrop-be"
+    container_name: FileDrop-BE
+    hostname: FileDrop-BE
+    networks:
+      - filedrop-internal
+    depends_on:
+      - filedrop-db
+    restart: unless-stopped
+  filedrop-db:
+    image: "mariadb"
+    container_name: FileDrop-DB
+    hostname: FileDrop-DB
+    networks:
+      - filedrop-internal
+    volumes:
+      - ./database:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: "kg4vrJG!J7uNkeULfX!WcpSBuf2iTavdAR*pacB3%TxT%Kk%u%9^FzDw3Gn^Ux^Dk2i*u5qMVqP4TA2Kyzt8dVxvwrSV*W"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+  filedrop-internal:

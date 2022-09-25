@@ -34,3 +34,9 @@ packages/
 uploads/
 
 appsettings.json
+
+Deployment/BE/Output
+Deployment/FE/Output
+Deployment/TransferToServer
+
+Scripts

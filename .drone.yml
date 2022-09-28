@@ -16,6 +16,7 @@ steps:
     tags: latest
     dry_run: true
     purge: true
+    context: ./FileDropFE
     dockerfile: ./FileDropFE/Dockerfile
 
 - name: build-backend-docker

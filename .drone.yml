@@ -7,7 +7,7 @@ steps:
   image: alpine
   commands:
   - ls -la
-  - ls -la Dockerfile
+  - cd ./FileDropFE
 
 - name: build-frontent-docker
   image: plugins/docker

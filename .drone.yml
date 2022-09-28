@@ -8,6 +8,7 @@ steps:
   commands:
   - ls -la
   - cd ./FileDropFE
+  - ls -la
 
 - name: build-frontent-docker
   image: plugins/docker

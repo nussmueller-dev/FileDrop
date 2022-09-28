@@ -1,0 +1,36 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+- name: build-frontent-docker
+  image: plugins/docker
+  settings:
+    registry: 
+      from_secret: docker-registry
+    username: 
+      from_secret: docker-username
+    password: 
+      from_secret: docker-password
+    repo: filedrop-fe
+    tags: latest
+    dry_run: true
+    purge: true
+    context: ./FileDropFE
+    target: linux/amd64
+
+- name: build-backend-docker
+  image: plugins/docker
+  settings:
+    registry: 
+      from_secret: docker-registry
+    username: 
+      from_secret: docker-username
+    password: 
+      from_secret: docker-password
+    repo: filedrop-be
+    tags: latest
+    dry_run: true
+    purge: true
+    context: ./FileDropBE
+    target: linux/amd64

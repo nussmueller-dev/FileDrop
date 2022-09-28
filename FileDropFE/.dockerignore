@@ -1,0 +1,12 @@
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.vs
+**/.vscode
+**/.angular
+**/dist
+**/node_modules
+LICENSE
+README.md

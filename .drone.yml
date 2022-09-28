@@ -3,13 +3,6 @@ type: docker
 name: default
 
 steps:
-- name: ls
-  image: alpine
-  commands:
-  - ls -la
-  - cd ./FileDropFE
-  - ls -la
-
 - name: build-frontent-docker
   image: plugins/docker
   settings:

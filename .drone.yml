@@ -33,4 +33,4 @@ steps:
     dry_run: true
     purge: true
     context: ./FileDropBE
-    target: linux/amd64
+    dockerfile: ./FileDropBE/Dockerfile

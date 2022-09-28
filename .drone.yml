@@ -24,7 +24,6 @@ steps:
     dry_run: true
     purge: true
     dockerfile: ./FileDropFE/Dockerfile
-    target: linux/amd64
 
 - name: build-backend-docker
   image: plugins/docker

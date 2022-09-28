@@ -3,6 +3,12 @@ type: docker
 name: default
 
 steps:
+- name: ls
+  image: alpine
+  commands:
+  - ls -la
+  - ls -la Dockerfile
+
 - name: build-frontent-docker
   image: plugins/docker
   settings:

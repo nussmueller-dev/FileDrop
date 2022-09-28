@@ -23,7 +23,7 @@ steps:
     tags: latest
     dry_run: true
     purge: true
-    context: ./FileDropFE
+    dockerfile: ./FileDropFE/Dockerfile
     target: linux/amd64
 
 - name: build-backend-docker

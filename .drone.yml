@@ -19,6 +19,11 @@ steps:
     context: ./FileDropFE
     dockerfile: ./FileDropFE/Dockerfile
 
+trigger:
+  event:
+  - push
+  - pull_request
+
 ---
 
 kind: pipeline
@@ -41,6 +46,11 @@ steps:
     purge: true
     context: ./FileDropBE
     dockerfile: ./FileDropBE/Dockerfile
+
+trigger:
+  event:
+  - push
+  - pull_request
 
 ---
 

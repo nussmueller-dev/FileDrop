@@ -1,9 +1,9 @@
 kind: pipeline
 type: docker
-name: default
+name: frontend
 
 steps:
-- name: build-frontent-docker
+- name: build
   image: plugins/docker
   settings:
     registry: 
@@ -19,7 +19,14 @@ steps:
     context: ./FileDropFE
     dockerfile: ./FileDropFE/Dockerfile
 
-- name: build-backend-docker
+---
+
+kind: pipeline
+type: docker
+name: backend
+
+steps:
+- name: build
   image: plugins/docker
   settings:
     registry: 
@@ -35,6 +42,13 @@ steps:
     context: ./FileDropBE
     dockerfile: ./FileDropBE/Dockerfile
 
+---
+
+kind: pipeline
+type: docker
+name: after
+
+steps:
 - name: deploy-to-server
   image: appleboy/drone-ssh
   settings:
@@ -52,3 +66,7 @@ steps:
       - docker compose pull
       - docker compose down
       - docker compose up -d
+
+depends_on:
+- frontend
+- backend

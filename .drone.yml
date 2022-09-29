@@ -67,6 +67,8 @@ steps:
       - docker compose down
       - docker compose up -d
 
-depends_on:
-- frontend
-- backend
+trigger:
+  event:
+  - promote
+  target:
+  - production

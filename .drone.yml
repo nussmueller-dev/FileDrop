@@ -34,3 +34,21 @@ steps:
     purge: true
     context: ./FileDropBE
     dockerfile: ./FileDropBE/Dockerfile
+
+- name: deploy-to-server
+  image: appleboy/drone-ssh
+  settings:
+    host: 
+      from_secret: server-url
+    username:
+      from_secret: server-username
+    port: 
+      from_secret: server-port
+    key:
+      from_secret: server-key 
+    command_timeout: 2m
+    script:
+      - cd /home/docker/FileDrop
+      - docker compose pull
+      - docker compose down
+      - docker compose up -d

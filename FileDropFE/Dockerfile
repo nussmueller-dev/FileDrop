@@ -6,7 +6,6 @@ FROM node:16-alpine AS build
 WORKDIR /src
 COPY . .
 RUN npm install -g @angular/cli
-RUN ls -la
 RUN npm install
 RUN ng build
 

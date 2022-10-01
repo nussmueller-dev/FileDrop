@@ -12,9 +12,10 @@ steps:
       from_secret: docker-username
     password: 
       from_secret: docker-password
-    repo: filedrop-fe
+    repo: 
+      from_secret: docker-repo-fe
     tags: latest
-    dry_run: true
+    dry_run: false
     purge: true
     context: ./FileDropFE
     dockerfile: ./FileDropFE/Dockerfile
@@ -40,9 +41,10 @@ steps:
       from_secret: docker-username
     password: 
       from_secret: docker-password
-    repo: filedrop-be
+    repo: 
+      from_secret: docker-repo-be
     tags: latest
-    dry_run: true
+    dry_run: false
     purge: true
     context: ./FileDropBE
     dockerfile: ./FileDropBE/Dockerfile

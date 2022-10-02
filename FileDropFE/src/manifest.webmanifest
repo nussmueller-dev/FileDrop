@@ -1,11 +1,11 @@
 {
   "name": "FileDrop",
   "short_name": "FileDrop",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "theme_color": "#282828",
+  "background_color": "#282828",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./upload",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
@@ -38,20 +38,14 @@
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/icon-192x192.png",
-      "sizes": "192x192",
+      "src": "assets/icons/icon-196x196.png",
+      "sizes": "196x196",
       "type": "image/png",
       "purpose": "maskable any"
     },
     {
-      "src": "assets/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "assets/icons/icon-310x310.png",
+      "sizes": "310x310",
       "type": "image/png",
       "purpose": "maskable any"
     }

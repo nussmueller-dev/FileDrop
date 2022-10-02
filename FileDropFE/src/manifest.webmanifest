@@ -50,11 +50,9 @@
       "purpose": "maskable any"
     }
   ],
-  "share_target":
-  {
+  "share_target": {
     "action": "/upload",
-    "params":
-    {
+    "params": {
       "title": "title",
       "text": "text",
       "url": "url"

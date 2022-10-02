@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { Router } from '@angular/router';
 import { FileState } from 'src/app/shared/util/fileState';
 import { FileStatusEnum } from 'src/app/shared/util/fileStatusEnum';
@@ -8,7 +8,7 @@ import { FileStatusEnum } from 'src/app/shared/util/fileStatusEnum';
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.scss'],
 })
-export class UploadComponent implements OnInit {
+export class UploadComponent {
   fileStatusEnum = FileStatusEnum;
   uploadingFiles: Array<FileState> = new Array<FileState>();
 
@@ -19,10 +19,6 @@ export class UploadComponent implements OnInit {
   }
 
   constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.test = window.location.href;
-  }
 
   async navigateToOverview() {
     if (

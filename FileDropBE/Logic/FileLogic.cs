@@ -1,6 +1,7 @@
 ﻿using FileDropBE.BindingModels;
 using FileDropBE.Database;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -15,6 +16,18 @@ namespace FileDropBE.Logic {
     public FileLogic(DB_Context dB_Context, BindingModelFactory bindingModelFactory) {
       _dbContext = dB_Context;
       _bindingModelFactory = bindingModelFactory;
+    }
+
+    public IList<Database.Entities.File> GetAllFiles() {
+      var filesInDirectory = Directory.GetFiles(uploadPath).ToList();
+
+      if (filesInDirectory.Count() == 0) {
+        _dbContext.Files.RemoveRange(_dbContext.Files);
+        _dbContext.SaveChanges();
+      }
+
+      var files = _dbContext.Files.ToList();
+      return files;
     }
 
     public int SaveFile(IFormFile form) {

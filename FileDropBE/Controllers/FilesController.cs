@@ -50,7 +50,7 @@ namespace FileDropBE.Controllers {
 
         var fileEntity = _context.Files.First(x => x.Id == fileId);
 
-        fileTitles.Add(fileEntity.Name + "." + fileEntity.FileType);
+        fileTitles.Add(fileEntity.Name + fileEntity.FileType);
       }
 
 #if (DEBUG)
@@ -69,7 +69,7 @@ namespace FileDropBE.Controllers {
     [Authorize]
     [HttpGet("")]
     public IActionResult GetAllFiles() {
-      var allFiles = _context.Files.ToList();
+      var allFiles = _logic.GetAllFiles();
 
       return Ok(allFiles.Select(x => new FileViewModel(x)));
     }

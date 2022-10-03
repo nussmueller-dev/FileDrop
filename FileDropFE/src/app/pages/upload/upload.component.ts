@@ -21,13 +21,14 @@ export class UploadComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
-    let fileTitle = this.route.snapshot.queryParamMap.get('filetitle');
-    let fileType = this.route.snapshot.queryParamMap.get('filetype');
+    let fileTitles = this.route.snapshot.queryParamMap.getAll('filetitles');
 
-    if (fileTitle && fileType) {
-      var intiFileStatus = new FileState(fileTitle + '.' + fileType);
-      intiFileStatus.status = FileStatusEnum.Uploaded;
-      this.uploadingFiles.push(intiFileStatus);
+    if (fileTitles) {
+      fileTitles.forEach((fileTitle) => {
+        var intiFileStatus = new FileState(fileTitle);
+        intiFileStatus.status = FileStatusEnum.Uploaded;
+        this.uploadingFiles.push(intiFileStatus);
+      });
     }
   }
 

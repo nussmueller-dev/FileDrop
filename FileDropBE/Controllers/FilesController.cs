@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FileDropBE.Controllers {
@@ -26,17 +27,31 @@ namespace FileDropBE.Controllers {
     [RequestSizeLimit(MaxFileSize)]
     [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
     [HttpPost("upload")]
-    public IActionResult UploadFile([FromForm] IFormFile file) {
-      var fileId = _logic.SaveFile(file);
+    public IActionResult UploadFile([FromForm] IList<IFormFile> file) {
+      foreach (var singleFile in file) {
+        var fileId = _logic.SaveFile(singleFile);
+      }
 
-      return Ok(new { id = fileId });
+      if (file.Count() == 0) {
+        return BadRequest("No files");
+      } else {
+        return Ok();
+      }
     }
 
     [RequestSizeLimit(MaxFileSize)]
     [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
     [HttpPost("upload/share")]
-    public IActionResult UploadFileAsShare([FromForm] IFormFile file) {
-      var fileId = _logic.SaveFile(file);
+    public IActionResult UploadFileAsShare([FromForm] IList<IFormFile> file) {
+      var fileTitles = new List<string>();
+
+      foreach (var singleFile in file) {
+        var fileId = _logic.SaveFile(singleFile);
+
+        var fileEntity = _context.Files.First(x => x.Id == fileId);
+
+        fileTitles.Add(fileEntity.Name + "." + fileEntity.FileType);
+      }
 
 #if (DEBUG)
       var frontendUrl = _configuration["FrontendUrl:Debug"];
@@ -44,9 +59,11 @@ namespace FileDropBE.Controllers {
       var frontendUrl = _configuration["FrontendUrl:Server"];
 #endif
 
-      var fileEntity = _context.Files.First(x => x.Id == fileId);
+      if (file.Count() == 0) {
+        return BadRequest("No files");
+      }
 
-      return Redirect($"{frontendUrl}upload?filetitle={fileEntity.Name}&filetype={fileEntity.FileType}");
+      return Redirect($"{frontendUrl}upload?filetitles={String.Join("&filetitles=", fileTitles)}");
     }
 
     [Authorize]

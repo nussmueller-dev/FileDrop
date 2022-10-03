@@ -51,11 +51,14 @@
     }
   ],
   "share_target": {
-    "action": "/upload",
-    "params": {
-      "title": "title",
-      "text": "text",
-      "url": "url"
-    }
+    "action": "/api/files/upload",
+    "method": "POST",
+    "enctype": "multipart/form-data",
+    "files": [
+      {
+        "name": "file",
+        "accept": "*"
+      }
+    ]
   }
 }

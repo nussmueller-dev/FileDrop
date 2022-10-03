@@ -4,6 +4,8 @@ using FileDropBE.Logic;
 using FileDropBE.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Linq;
 
 namespace FileDropBE.Controllers {
@@ -13,10 +15,12 @@ namespace FileDropBE.Controllers {
     private const long MaxFileSize = 50L * 1024L * 1024L * 1024L; // 50GB, adjust to your need
     private DB_Context _context;
     private FileLogic _logic;
+    private IConfiguration _configuration;
 
-    public FilesController(DB_Context context, FileLogic logic) {
+    public FilesController(IConfiguration configuration, DB_Context context, FileLogic logic) {
       _context = context;
       _logic = logic;
+      _configuration = configuration;
     }
 
     [RequestSizeLimit(MaxFileSize)]
@@ -26,6 +30,23 @@ namespace FileDropBE.Controllers {
       var fileId = _logic.SaveFile(file);
 
       return Ok(new { id = fileId });
+    }
+
+    [RequestSizeLimit(MaxFileSize)]
+    [RequestFormLimits(MultipartBodyLengthLimit = MaxFileSize)]
+    [HttpPost("upload/share")]
+    public IActionResult UploadFileAsShare([FromForm] IFormFile file) {
+      var fileId = _logic.SaveFile(file);
+
+#if (DEBUG)
+      var frontendUrl = _configuration["FrontendUrl:Debug"];
+#else
+      var frontendUrl = _configuration["FrontendUrl:Server"];
+#endif
+
+      var fileEntity = _context.Files.First(x => x.Id == fileId);
+
+      return Redirect($"{frontendUrl}upload?filetitle={fileEntity.Name}&filetype={fileEntity.FileType}");
     }
 
     [Authorize]

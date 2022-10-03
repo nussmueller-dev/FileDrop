@@ -2,6 +2,7 @@
 using FileDropBE.Database;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using System.Linq;
 
 namespace FileDropBE.Logic {
   public class FileLogic {
@@ -28,6 +29,13 @@ namespace FileDropBE.Logic {
       fileName += file.FileType;
       var path = SaveFileToPath(form, fileName);
       file.Path = path;
+
+      while (_dbContext.Files.Count() > 100) {
+        var lastFile = _dbContext.Files.Last();
+
+        DeleteFile(lastFile);
+      }
+
       _dbContext.SaveChanges();
 
       return file.Id;

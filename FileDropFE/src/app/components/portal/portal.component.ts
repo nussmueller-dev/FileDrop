@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import * as _ from 'lodash';
-import { lastValueFrom } from 'rxjs';
 import { FileState } from 'src/app/shared/util/fileState';
 import { FileStatusEnum } from 'src/app/shared/util/fileStatusEnum';
 import { FileService } from './../../shared/services/file.service';
@@ -63,36 +62,37 @@ export class PortalComponent {
       let observable = this.fileService.uploadFile(file);
       let fileState = new FileState(file.name);
 
-      observable.subscribe((event: HttpEvent<any>) => {
-        if (fileState.status === FileStatusEnum.Error) {
-          return;
-        }
+      observable.subscribe(
+        (event: HttpEvent<any>) => {
+          if (fileState.status === FileStatusEnum.Error) {
+            return;
+          }
 
-        switch (event.type) {
-          case HttpEventType.Sent:
-            console.log('Request has been made!');
-            fileState.status = FileStatusEnum.Uploading;
-            break;
-          case HttpEventType.ResponseHeader:
-            console.log('Response header has been received!');
-            fileState.status = FileStatusEnum.Uploaded;
-            break;
-          case HttpEventType.UploadProgress:
-            let progress = Math.round(
-              (event.loaded / (event.total ?? 1)) * 100
-            );
-            fileState.progress = progress;
-            console.log(`Uploaded! ${progress}%`);
-            break;
-          case HttpEventType.Response:
-            fileState.status = FileStatusEnum.Uploaded;
+          switch (event.type) {
+            case HttpEventType.Sent:
+              console.log('Request has been made!');
+              fileState.status = FileStatusEnum.Uploading;
+              break;
+            case HttpEventType.ResponseHeader:
+              console.log('Response header has been received!');
+              fileState.status = FileStatusEnum.Uploaded;
+              break;
+            case HttpEventType.UploadProgress:
+              let progress = Math.round(
+                (event.loaded / (event.total ?? 1)) * 100
+              );
+              fileState.progress = progress;
+              console.log(`Uploaded! ${progress}%`);
+              break;
+            case HttpEventType.Response:
+              fileState.status = FileStatusEnum.Uploaded;
+          }
+        },
+        (error: any) => {
+          fileState.status = FileStatusEnum.Error;
+          console.log('Error while uploading!');
         }
-      });
-
-      lastValueFrom(observable).catch((error) => {
-        fileState.status = FileStatusEnum.Error;
-        console.log('Error while uploading!');
-      });
+      );
 
       this.fileStates.push(fileState);
     }

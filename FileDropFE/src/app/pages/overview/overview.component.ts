@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import { DateTime } from 'luxon';
 import { FileViewModel } from 'src/app/shared/models/file-view-model';
 import { UserBindingModel } from './../../shared/models/user-binding-model';
@@ -67,6 +68,8 @@ export class OverviewComponent implements OnInit {
     this.files.forEach((file) => {
       file.date = DateTime.fromISO(file.date.toString());
     });
+
+    this.files = _.orderBy(this.files, ['date'], ['desc']);
   }
 
   async downloadFile(file: FileViewModel) {

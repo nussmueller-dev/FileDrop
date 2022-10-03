@@ -54,15 +54,13 @@
     "action": "/api/files/upload",
     "method": "POST",
     "enctype": "multipart/form-data",
-    "files": [
-      {
-        "name": "file",
-        "accept": [
-          "audio/*",
-          "image/*",
-          "video/*"
-        ]
-      }
-    ]
+    "params": {
+      "files": [
+        {
+          "name": "file",
+          "accept": ["audio/*", "image/*", "video/*"]
+        }
+      ]
+    }
   }
 }

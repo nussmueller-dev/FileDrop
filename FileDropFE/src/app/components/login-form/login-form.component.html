@@ -1,4 +1,4 @@
-<div class="form">
+<form class="form" (ngSubmit)="login()">
   <h2>Login</h2>
   <div class="input">
     <div class="inputBox">
@@ -10,8 +10,8 @@
       <input type="password" name="password" placeholder="******" [(ngModel)]="bindingModel.password">
     </div>
     <div class="inputBox">
-      <input type="submit" name="submit" value="Einloggen" (click)="login()">
+      <input type="submit" name="submit" value="Einloggen">
     </div>
   </div>
   <p class="forgot">Passwort vergessen? <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Hier klicken</a></p>
-</div>
+</form>

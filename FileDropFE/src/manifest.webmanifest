@@ -4,7 +4,7 @@
   "short_name": "FileDrop",
   "theme_color": "black",
   "background_color": "#282828",
-  "display": "standalone",
+  "display": "fullscreen",
   "scope": "./",
   "start_url": "./upload",
   "icons": [

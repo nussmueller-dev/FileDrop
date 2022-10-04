@@ -19,9 +19,7 @@ namespace FileDropBE.Logic {
     }
 
     public IList<Database.Entities.File> GetAllFiles() {
-      var filesInDirectory = Directory.GetFiles(uploadPath).ToList();
-
-      if (filesInDirectory.Count() == 0) {
+      if (!Directory.Exists(uploadPath) || Directory.GetFiles(uploadPath).ToList().Count() == 0) {
         _dbContext.Files.RemoveRange(_dbContext.Files);
         _dbContext.SaveChanges();
       }

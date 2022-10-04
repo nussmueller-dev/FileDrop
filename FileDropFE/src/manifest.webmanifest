@@ -1,7 +1,8 @@
 {
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
   "name": "FileDrop",
   "short_name": "FileDrop",
-  "theme_color": "#282828",
+  "theme_color": "black",
   "background_color": "#282828",
   "display": "standalone",
   "scope": "./",
@@ -58,7 +59,7 @@
       "files": [
         {
           "name": "file",
-          "accept": ["audio/*", "image/*", "video/*"]
+          "accept": ["audio/*", "image/*", "video/*", "*/*"]
         }
       ]
     }

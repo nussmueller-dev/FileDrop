@@ -143,3 +143,15 @@ header {
     }
   }
 }
+
+@media screen and (max-width: 600px), screen and (max-height: 600px) {
+  .portal {
+    transform: scale(0.8);
+  }
+}
+
+@media screen and (max-width: 440px), screen and (max-height: 500px) {
+  .portal {
+    transform: scale(0.6);
+  }
+}

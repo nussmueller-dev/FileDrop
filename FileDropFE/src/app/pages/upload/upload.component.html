@@ -2,7 +2,7 @@
   <img src="assets/icons/account-icon.svg" alt="admin icon" class="account-icon" (click)="navigateToOverview()">
 </header>
 <div class="portal-holder">
-  <app-portal (uploadingFilesChange)="uploadingFiles = $event"></app-portal>
+  <app-portal class="portal" (uploadingFilesChange)="uploadingFiles = $event"></app-portal>
 </div>
 <div class="file-list-holder">
   <div class="file-list">

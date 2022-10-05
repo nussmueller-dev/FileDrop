@@ -67,7 +67,7 @@ trigger:
 
 kind: pipeline
 type: docker
-name: default
+name: notify
 
 steps:
 - name: discord notification

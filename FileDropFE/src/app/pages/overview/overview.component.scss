@@ -46,7 +46,7 @@ main {
   width: 600px;
   max-height: 100%;
   margin: 20px 0;
-  padding: 40px 40px;
+  padding: 40px;
   background-color: $dark-background-color;
   border-radius: 10px;
   text-align: center;
@@ -106,6 +106,59 @@ main {
 
     .download-icon {
       margin-left: auto;
+    }
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .file-list {
+    width: 500px;
+    padding: 30px;
+
+    .file {
+      font-size: 16px;
+      height: 40px;
+      padding: 0 15px;
+
+      .icon {
+        height: 35px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 520px) {
+  .file-list {
+    width: 400px;
+    padding: 20px;
+
+    .file {
+      font-size: 12px;
+      height: 35px;
+      padding: 0 13px;
+
+      .icon {
+        height: 30px;
+
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 420px) {
+  .file-list {
+    width: 350px;
+    padding: 10px;
+
+    .file {
+      font-size: 12px;
+
+      .icon {
+        height: 25px;
+      }
     }
   }
 }

@@ -73,7 +73,7 @@ namespace FileDropBE {
 
       app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
-        endpoints.MapHub<UploadHub>("/uploadhub");
+        endpoints.MapHub<UploadHub>("/hubs/upload");
       });
 
       using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {

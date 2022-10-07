@@ -65,6 +65,8 @@ namespace FileDropBE.Logic {
 
       files.Remove(file);
       _dbContext.SaveChanges();
+
+      InformAboutDeleted();
     }
 
     private string SaveFileToPath(IFormFile form, string fileName) {
@@ -80,6 +82,10 @@ namespace FileDropBE.Logic {
 
     private void InformAboutNewUpload() {
       _uploadHub.Clients.All.SendAsync("NewUpload");
+    }
+
+    private void InformAboutDeleted() {
+      _uploadHub.Clients.All.SendAsync("Deleted");
     }
   }
 }

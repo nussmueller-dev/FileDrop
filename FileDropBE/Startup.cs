@@ -1,5 +1,6 @@
 using FileDropBE.BindingModels;
 using FileDropBE.Database;
+using FileDropBE.Hubs;
 using FileDropBE.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,8 @@ namespace FileDropBE {
       services.AddScoped<FileLogic>();
       services.AddScoped<UserLogic>();
       services.AddScoped<BindingModelFactory>();
+      
+      services.AddSignalR();
 
       services.AddCors(options => {
         options.AddDefaultPolicy(builder => builder
@@ -70,6 +73,7 @@ namespace FileDropBE {
 
       app.UseEndpoints(endpoints => {
         endpoints.MapControllers();
+        endpoints.MapHub<UploadHub>("/uploadhub");
       });
 
       using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope()) {

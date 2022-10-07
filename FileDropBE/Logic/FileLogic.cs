@@ -1,5 +1,7 @@
 ﻿using FileDropBE.BindingModels;
 using FileDropBE.Database;
+using FileDropBE.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
@@ -12,10 +14,12 @@ namespace FileDropBE.Logic {
 
     private readonly DB_Context _dbContext;
     private readonly BindingModelFactory _bindingModelFactory;
+    private readonly IHubContext<UploadHub> _uploadHub;
 
-    public FileLogic(DB_Context dB_Context, BindingModelFactory bindingModelFactory) {
+    public FileLogic(DB_Context dB_Context, BindingModelFactory bindingModelFactory, IHubContext<UploadHub> uploadHub) {
       _dbContext = dB_Context;
       _bindingModelFactory = bindingModelFactory;
+      _uploadHub = uploadHub;
     }
 
     public IList<Database.Entities.File> GetAllFiles() {
@@ -49,6 +53,8 @@ namespace FileDropBE.Logic {
 
       _dbContext.SaveChanges();
 
+      InformAboutNewUpload();
+
       return file.Id;
     }
 
@@ -70,6 +76,10 @@ namespace FileDropBE.Logic {
         form.CopyTo(fileStream);
       }
       return Path.GetFullPath(filePath);
+    }
+
+    private void InformAboutNewUpload() {
+      _uploadHub.Clients.All.SendAsync("NewUpload");
     }
   }
 }

@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
     "@angular/service-worker": "^14.2.0",
+    "@microsoft/signalr": "^6.0.9",
     "angular-svg-icon": "^14.0.0",
     "lodash": "^4.17.21",
     "luxon": "^3.0.4",

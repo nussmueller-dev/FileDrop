@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { DateTime } from 'luxon';
 import { FileViewModel } from 'src/app/shared/models/file-view-model';
+import { SignalrConnection } from 'src/app/shared/services/util/SignalrConnection';
+import { environment } from 'src/environments/environment';
 import { UserBindingModel } from './../../shared/models/user-binding-model';
 import { FileService } from './../../shared/services/file.service';
 import { UserService } from './../../shared/services/user.service';
@@ -12,26 +14,52 @@ import { UserService } from './../../shared/services/user.service';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
+  private signalrConnection: SignalrConnection;
   isLoggedIn = false;
   token: string = '';
   files = new Array<FileViewModel>();
   usersCount = 0;
 
+  load: Function = () => {
+    this.loadFiles();
+  };
+
+  loadFiles = async () => {
+    this.files = await this.fileService.getAllFiles(this.token);
+    this.files.forEach((file) => {
+      file.date = DateTime.fromISO(file.date.toString());
+    });
+
+    this.files = _.orderBy(this.files, ['date'], ['desc']);
+  };
+
   constructor(
     private fileService: FileService,
     private userService: UserService
-  ) {}
+  ) {
+    this.signalrConnection = new SignalrConnection(this.loadFiles);
+  }
 
   async ngOnInit() {
     let token = localStorage.getItem('token');
 
     if (token) {
       this.token = token;
-      await this.loadFiles();
+      await this.startSignalrRConnection();
       this.isLoggedIn = true;
     } else {
       this.isLoggedIn = false;
     }
+  }
+
+  ngOnDestroy() {
+    this.signalrConnection.stop();
+  }
+
+  async startSignalrRConnection() {
+    await this.signalrConnection.start(environment.BACKENDURL + 'hubs/upload');
+    this.signalrConnection.addEvent('NewUpload', this.loadFiles);
+    this.signalrConnection.addEvent('Deleted', this.loadFiles);
   }
 
   async login(bindingModel: UserBindingModel) {
@@ -56,20 +84,9 @@ export class OverviewComponent implements OnInit {
           .catch(() => alert('Wrong Credentials'))) ?? '';
     }
 
-    console.log(this.token);
-
     localStorage.setItem('token', this.token);
-    await this.loadFiles();
+    await this.startSignalrRConnection();
     this.isLoggedIn = true;
-  }
-
-  async loadFiles() {
-    this.files = await this.fileService.getAllFiles(this.token);
-    this.files.forEach((file) => {
-      file.date = DateTime.fromISO(file.date.toString());
-    });
-
-    this.files = _.orderBy(this.files, ['date'], ['desc']);
   }
 
   async downloadFile(file: FileViewModel) {

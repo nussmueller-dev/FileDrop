@@ -112,33 +112,6 @@ steps:
       - docker compose down
       - docker compose up -d
 
-- name: transfer-to-public-registry
-  image: docker:latest
-  environment:
-    REPO_BE:
-      from_secret: docker-repo-be
-    REPO_FE:
-      from_secret: docker-repo-fe
-    REPO_BE_PUBLIC:
-      from_secret: docker-repo-be-public
-    REPO_FE_PUBLIC:
-      from_secret: docker-repo-fe-public
-  volumes:
-    - name: docker_sock
-      path: /var/run/docker.sock
-  commands:
-    - docker pull $${REPO_BE}
-    - docker pull $${REPO_FE}
-    - docker image tag $${REPO_BE} $${REPO_BE_PUBLIC}
-    - docker image tag $${REPO_FE} $${REPO_FE_PUBLIC}
-    - docker image push $${REPO_BE_PUBLIC}
-    - docker image push $${REPO_FE_PUBLIC}
-
-volumes:
-  - name: docker_sock
-    host:
-      path: /var/run/docker.sock
-
 trigger:
   event:
   - promote

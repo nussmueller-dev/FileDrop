@@ -6,14 +6,12 @@ steps:
 - name: build
   image: plugins/docker
   settings:
-    registry: 
-      from_secret: docker-registry
     username: 
-      from_secret: docker-username
+      from_secret: docker-username-public
     password: 
-      from_secret: docker-password
+      from_secret: docker-password-public
     repo: 
-      from_secret: docker-repo-fe
+      from_secret: docker-repo-fe-public
     tags: latest
     dry_run: false
     purge: true
@@ -44,14 +42,12 @@ steps:
 - name: build
   image: plugins/docker
   settings:
-    registry: 
-      from_secret: docker-registry
     username: 
-      from_secret: docker-username
+      from_secret: docker-username-public
     password: 
-      from_secret: docker-password
+      from_secret: docker-password-public
     repo: 
-      from_secret: docker-repo-be
+      from_secret: docker-repo-be-public
     tags: latest
     dry_run: false
     purge: true

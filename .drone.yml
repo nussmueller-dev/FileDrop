@@ -113,7 +113,7 @@ steps:
       - docker compose up -d
 
 - name: transfer-to-public-registry
-  image: docker:latest
+  image: docker:dind
   environment:
     REPO_BE:
       from_secret: docker-repo-be

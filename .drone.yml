@@ -125,7 +125,7 @@ steps:
       from_secret: docker-repo-fe-public
   volumes:
     - name: docker_sock
-      path: /var/run/docker.sock
+      path: /var/run
   commands:
     - docker pull $${REPO_BE}
     - docker pull $${REPO_FE}
@@ -136,8 +136,7 @@ steps:
 
 volumes:
   - name: docker_sock
-    host:
-      path: /var/run/docker.sock
+    temp: {}
 
 trigger:
   event:

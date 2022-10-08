@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   filedrop:
-    image: "docker.nussmueller.dev/filedrop-fe"
+    image: "borelio/filedrop-fe"
     container_name: FileDrop-FE
     networks:
       - proxy
@@ -10,7 +10,7 @@ services:
       - filedrop-be
     restart: unless-stopped
   filedrop-be:
-    image: "docker.nussmueller.dev/filedrop-be"
+    image: "borelio/filedrop-be"
     container_name: FileDrop-BE
     hostname: FileDrop-BE
     networks:

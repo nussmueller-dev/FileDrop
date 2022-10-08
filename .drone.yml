@@ -113,7 +113,7 @@ steps:
       - docker compose up -d
 
 - name: transfer-to-public-registry
-  image: docker:dind
+  image: docker:latest
   environment:
     REPO_BE:
       from_secret: docker-repo-be
@@ -125,7 +125,7 @@ steps:
       from_secret: docker-repo-fe-public
   volumes:
     - name: docker_sock
-      path: /var/run
+      path: /var/run/docker.sock
   commands:
     - docker pull $${REPO_BE}
     - docker pull $${REPO_FE}
@@ -136,7 +136,8 @@ steps:
 
 volumes:
   - name: docker_sock
-    temp: {}
+    host:
+      path: /var/run/docker.sock
 
 trigger:
   event:

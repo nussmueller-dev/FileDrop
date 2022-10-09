@@ -3,6 +3,11 @@
 A self-hosted mailbox that can receive all kind of files. 
 It's like a portal that sends all files to you that get dropped into it.
 
+<div>
+    <img src="./Assets/UploadPage.png" width="45%" alt="Upload"/>
+    <img src="./Assets/OverviewPage.png" width="45%" alt="Overview"/>
+</div>
+
 ## 🔧 How to Install
 
 ### 🐳 Docker

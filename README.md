@@ -8,6 +8,10 @@ It's like a portal that sends all files to you that get dropped into it.
     <img src="./Assets/OverviewPage.png" width="45%" alt="Overview"/>
 </div>
 
+## Why?
+
+I realy don't konw. I just wanted to build something like this.
+
 ## 🔧 How to Install
 
 ### 🐳 Docker

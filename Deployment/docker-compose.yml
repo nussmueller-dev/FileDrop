@@ -4,8 +4,9 @@ services:
     image: "borelio/filedrop-fe"
     container_name: FileDrop-FE
     networks:
-      - proxy
       - filedrop-internal
+    ports:
+      - "3091:80"
     depends_on:
       - filedrop-be
     restart: unless-stopped
@@ -31,6 +32,4 @@ services:
     restart: unless-stopped
 
 networks:
-  proxy:
-    external: true
   filedrop-internal:

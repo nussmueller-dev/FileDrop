@@ -1,5 +1,10 @@
 # FileDrop
 
+<a href="https://drone.nussmueller.dev/Borelio/FileDrop">
+  <img src="https://drone.nussmueller.dev/api/badges/Borelio/FileDrop/status.svg" />
+</a>
+<img alt="GitHub" src="https://img.shields.io/github/license/Borelio/FIleDrop">
+
 A self-hosted mailbox that can receive all kind of files. 
 It's like a portal that sends all files to you that get dropped into it.
 
@@ -8,7 +13,7 @@ It's like a portal that sends all files to you that get dropped into it.
     <img src="./Assets/OverviewPage.png" width="45%" alt="Overview"/>
 </div>
 
-## Why?
+## ❓ Why?
 
 I realy don't konw. I just wanted to build something like this.
 

@@ -62,8 +62,8 @@ export class PortalComponent {
       let observable = this.fileService.uploadFile(file);
       let fileState = new FileState(file.name);
 
-      observable.subscribe(
-        (event: HttpEvent<any>) => {
+      observable.subscribe({
+        next: (event: HttpEvent<any>) => {
           if (fileState.status === FileStatusEnum.Error) {
             return;
           }
@@ -88,11 +88,11 @@ export class PortalComponent {
               fileState.status = FileStatusEnum.Uploaded;
           }
         },
-        (error: any) => {
+        error: (error: any) => {
           fileState.status = FileStatusEnum.Error;
           console.log('Error while uploading!');
-        }
-      );
+        },
+      });
 
       this.fileStates.push(fileState);
     }

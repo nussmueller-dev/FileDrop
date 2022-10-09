@@ -1,9 +1,11 @@
 # FileDrop
 
-<a href="https://drone.nussmueller.dev/Borelio/FileDrop">
-  <img src="https://drone.nussmueller.dev/api/badges/Borelio/FileDrop/status.svg" />
-</a>
-<img alt="GitHub" src="https://img.shields.io/github/license/Borelio/FIleDrop">
+<p>
+  <a href="https://drone.nussmueller.dev/Borelio/FileDrop">
+    <img src="https://drone.nussmueller.dev/api/badges/Borelio/FileDrop/status.svg" />
+  </a>
+  <img alt="GitHub" src="https://img.shields.io/github/license/Borelio/FIleDrop">
+</p>
 
 A self-hosted mailbox that can receive all kind of files. 
 It's like a portal that sends all files to you that get dropped into it.

@@ -45,8 +45,13 @@ export class OverviewComponent implements OnInit {
 
     if (token) {
       this.token = token;
-      await this.startSignalrRConnection();
-      this.isLoggedIn = true;
+      try {
+        await this.fileService.getAllFiles(token);
+        this.isLoggedIn = true;
+      } catch {
+        localStorage.removeItem('token');
+        this.isLoggedIn = false;
+      }
     } else {
       this.isLoggedIn = false;
     }

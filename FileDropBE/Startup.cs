@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace FileDropBE {
   public class Startup {
@@ -23,9 +24,11 @@ namespace FileDropBE {
     public void ConfigureServices(IServiceCollection services) {
 #if (DEBUG)
       var connectionString = Configuration.GetConnectionString("DebugConnection");
+
 #else
       var rootDbPassword = Configuration["DB_ROOT_PASSWORD"];
       var connectionString = $"Server=FileDrop-DB;Database=FileDrop;User Id = root; Password = {rootDbPassword};";
+      Console.WriteLine(connectionString);
 #endif
 
       services.AddDbContextPool<DB_Context>(options =>

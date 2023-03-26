@@ -24,7 +24,8 @@ namespace FileDropBE {
 #if (DEBUG)
       var connectionString = Configuration.GetConnectionString("DebugConnection");
 #else
-      var connectionString = Configuration.GetConnectionString("ServerConnection");
+      var rootDbPassword = Configuration["DB_ROOT_PASSWORD"];
+      var connectionString = $"Server=FileDrop-DB;Database=FileDrop;User Id = root; Password = {rootDbPassword};";
 #endif
 
       services.AddDbContextPool<DB_Context>(options =>

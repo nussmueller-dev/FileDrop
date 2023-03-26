@@ -5,10 +5,10 @@ services:
     container_name: FileDrop-FE
     networks:
       - filedrop-internal
-    ports:
-      - "3091:80"
     depends_on:
       - filedrop-be
+    ports:
+      - "3091:80"
     restart: unless-stopped
   filedrop-be:
     image: "borelio/filedrop-be"
@@ -18,6 +18,10 @@ services:
       - filedrop-internal
     depends_on:
       - filedrop-db
+    volumes:
+      - ./uploads:/app/uploads
+    environment:
+      DB_ROOT_PASSWORD: "ahlifasdf?234432qr!GUHZG"
     restart: unless-stopped
   filedrop-db:
     image: "mariadb"
@@ -28,7 +32,7 @@ services:
     volumes:
       - ./database:/var/lib/mysql
     environment:
-      MARIADB_ROOT_PASSWORD: "kg4vrJG!J7uNkeULfX!WcpSBuf2iTavdAR*pacB3%TxT%Kk%u%9^FzDw3Gn^Ux^Dk2i*u5qMVqP4TA2Kyzt8dVxvwrSV*W"
+      MARIADB_ROOT_PASSWORD: "ahlifasdf?234432qr!GUHZG"
     restart: unless-stopped
 
 networks:

@@ -11,9 +11,12 @@ namespace FileDropBE {
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder => {
               webBuilder.UseStartup<Startup>();
-              //webBuilder.UseKestrel(options => {
-              //  options.Limits.MaxRequestBodySize = long.MaxValue;
-              //});
+
+              #if (!DEBUG)
+                webBuilder.UseKestrel(options => {
+                  options.Limits.MaxRequestBodySize = long.MaxValue;
+                });
+              #endif
             });
   }
 }

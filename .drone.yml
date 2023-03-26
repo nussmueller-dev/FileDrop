@@ -3,76 +3,65 @@ type: docker
 name: frontend
 
 steps:
-- name: build
-  image: plugins/docker
-  settings:
-    username: 
-      from_secret: docker-username-public
-    password: 
-      from_secret: docker-password-public
-    repo: 
-      from_secret: docker-repo-fe-public
-    tags: latest
-    dry_run: false
-    purge: true
-    context: ./FileDropFE
-    dockerfile: ./FileDropFE/Dockerfile
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-username-public
+      password:
+        from_secret: docker-password-public
+      repo:
+        from_secret: docker-repo-fe-public
+      tags: latest
+      dry_run: false
+      purge: true
+      context: ./FileDropFE
+      dockerfile: ./FileDropFE/Dockerfile
 
 trigger:
   event:
-  - push
-  - pull_request
+    - push
+    - pull_request
 
 ---
-
 kind: pipeline
 type: docker
 name: backend
 
 steps:
-- name: pre-build
-  image: alpine
-  environment:
-    APPSETTINGS:
-      from_secret: appsettings
-  commands:
-    - cd ./FileDropBE
-    - echo $${APPSETTINGS} > appsettings.json
-
-- name: build
-  image: plugins/docker
-  settings:
-    username: 
-      from_secret: docker-username-public
-    password: 
-      from_secret: docker-password-public
-    repo: 
-      from_secret: docker-repo-be-public
-    tags: latest
-    dry_run: false
-    purge: true
-    context: ./FileDropBE
-    dockerfile: ./FileDropBE/Dockerfile
+  - name: build
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: docker-username-public
+      password:
+        from_secret: docker-password-public
+      repo:
+        from_secret: docker-repo-be-public
+      tags: latest
+      dry_run: false
+      purge: true
+      context: ./FileDropBE
+      dockerfile: ./FileDropBE/Dockerfile
 
 trigger:
   event:
-  - push
-  - pull_request
+    - push
+    - pull_request
 
 ---
-
 kind: pipeline
 type: docker
 name: notify
 
 steps:
-- name: discord notification
-  image: appleboy/drone-discord
-  settings:
-    webhook_id: 
-      from_secret: discord-webhook-id
-    webhook_token: 
-      from_secret: discord-webhook-token
+  - name: discord notification
+    image: appleboy/drone-discord
+    settings:
+      webhook_id:
+        from_secret: discord-webhook-id
+      webhook_token:
+        from_secret: discord-webhook-token
 
 depends_on:
   - frontend
@@ -80,36 +69,35 @@ depends_on:
 
 trigger:
   event:
-  - push
-  - pull_request
+    - push
+    - pull_request
 
 ---
-
 kind: pipeline
 type: docker
 name: after
 
 steps:
-- name: deploy-to-server
-  image: appleboy/drone-ssh
-  settings:
-    host: 
-      from_secret: server-url
-    username:
-      from_secret: server-username
-    port: 
-      from_secret: server-port
-    key:
-      from_secret: server-key 
-    command_timeout: 2m
-    script:
-      - cd /home/docker/FileDrop
-      - docker compose pull
-      - docker compose down
-      - docker compose up -d
+  - name: deploy-to-server
+    image: appleboy/drone-ssh
+    settings:
+      host:
+        from_secret: server-url
+      username:
+        from_secret: server-username
+      port:
+        from_secret: server-port
+      key:
+        from_secret: server-key
+      command_timeout: 2m
+      script:
+        - cd /home/docker/FileDrop
+        - docker compose pull
+        - docker compose down
+        - docker compose up -d
 
 trigger:
   event:
-  - promote
+    - promote
   target:
-  - production
+    - production

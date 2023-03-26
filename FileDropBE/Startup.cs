@@ -24,11 +24,10 @@ namespace FileDropBE {
     public void ConfigureServices(IServiceCollection services) {
 #if (DEBUG)
       var connectionString = Configuration.GetConnectionString("DebugConnection");
-
 #else
       var rootDbPassword = Configuration["DB_ROOT_PASSWORD"];
-      var connectionString = $"Server=FileDrop-DB;Database=FileDrop;User Id = root; Password = {rootDbPassword};";
-      Console.WriteLine(connectionString);
+      var dbServerName = Configuration["DB_SERVER_NAME"];
+      var connectionString = $"Server={dbServerName};Database=FileDrop;User Id = root; Password = {rootDbPassword};";
 #endif
 
       services.AddDbContextPool<DB_Context>(options =>

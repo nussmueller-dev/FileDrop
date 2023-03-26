@@ -17,6 +17,7 @@ FROM build AS publish
 RUN dotnet publish "FileDropBE.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ENV DB_SERVER_NAME=FileDrop-DB
 WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "FileDropBE.dll"]

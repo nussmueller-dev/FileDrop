@@ -56,7 +56,7 @@ namespace FileDropBE.Controllers {
 #if (DEBUG)
       var frontendUrl = _configuration["FrontendUrl:Debug"];
 #else
-      var frontendUrl = _configuration["FrontendUrl:Server"];
+      var frontendUrl = "/";
 #endif
 
       if (file.Count() == 0) {

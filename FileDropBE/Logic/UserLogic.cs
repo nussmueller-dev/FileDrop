@@ -13,6 +13,7 @@ using System.Text;
 namespace FileDropBE.Logic {
   public class UserLogic {
     private const double EXPIRY_DURATION_HOURS = 744;
+    private static string JwtKey;
 
     private readonly IConfiguration _configuration;
     private readonly DB_Context _context;
@@ -22,6 +23,10 @@ namespace FileDropBE.Logic {
       _configuration = configuration;
       _context = context;
       _currentUserHelper = currentUserHelper;
+
+      if (JwtKey == null) {
+        JwtKey = GenerateRandomString(104);
+      }
     }
 
     public string HashPassword(string password, string salt) {
@@ -70,7 +75,7 @@ namespace FileDropBE.Logic {
     }
 
     public string BuildToken(User user) {
-      var key = _configuration["Jwt:Key"];
+      var key = JwtKey;
       var issuer = _configuration["Jwt:Issuer"];
 
       var claims = new[] {
@@ -87,7 +92,7 @@ namespace FileDropBE.Logic {
     }
 
     private TokenValidationParameters GetTokenValidationParameters() {
-      var key = _configuration["Jwt:Key"];
+      var key = JwtKey;
       var issuer = _configuration["Jwt:Issuer"];
 
       var secret = Encoding.UTF8.GetBytes(key);
@@ -101,6 +106,13 @@ namespace FileDropBE.Logic {
         ValidAudience = issuer,
         IssuerSigningKey = securityKey,
       };
+    }
+
+    private string GenerateRandomString(int length) {
+      const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!-.?,;:_$";
+      var random = new Random();
+      var randomChars = Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray();
+      return new string(randomChars);
     }
   }
 }

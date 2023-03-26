@@ -8,6 +8,7 @@
 </main>
 <main *ngIf="isLoggedIn">
   <div class="file-list">
+    <div class="no-files" *ngIf="files.length === 0">Keine Dateien vorhanden</div>
     <div class="file" *ngFor="let file of files">
       <span class="upload-date">{{file.date.toFormat('dd.MM.yyyy HH:mm')}}</span>
       <span class="file-name">{{file.name}}</span>

@@ -90,6 +90,10 @@ export class OverviewComponent implements OnInit {
           .catch(() => alert('Wrong Credentials'))) ?? '';
     }
 
+    if(!this.token){
+      return;
+    }
+
     localStorage.setItem('token', this.token);
     await this.startSignalrRConnection();
     this.isLoggedIn = true;

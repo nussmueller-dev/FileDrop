@@ -17,7 +17,7 @@ It's like a portal that sends all files to you that get dropped into it.
 
 ## ❓ Why?
 
-I realy don't konw. I just wanted to build something like this.
+I realy don't know. I just wanted to build something like this.
 
 ## 🔧 How to Install
 

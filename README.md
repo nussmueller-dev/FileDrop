@@ -1,8 +1,8 @@
 # FileDrop
 
 <p>
-  <a href="https://drone.nussmueller.dev/Borelio/FileDrop">
-    <img src="https://drone.nussmueller.dev/api/badges/Borelio/FileDrop/status.svg" />
+  <a href="https://drone.nussmueller.dev/nussmueller-dev/FileDrop">
+    <img src="https://drone.nussmueller.dev/api/badges/nussmueller-dev/FileDrop/status.svg" />
   </a>
   <img alt="GitHub" src="https://img.shields.io/github/license/Borelio/FIleDrop">
 </p>

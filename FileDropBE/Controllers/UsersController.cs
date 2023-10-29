@@ -1,8 +1,14 @@
 ﻿using FileDropBE.BindingModels;
 using FileDropBE.Database;
 using FileDropBE.Logic;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using System;
 using System.Linq;
+using IronBarCode;
+using static System.Net.Mime.MediaTypeNames;
+using static IronSoftware.Drawing.AnyBitmap;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,6 +30,17 @@ namespace FileDropBE.Controllers {
     [HttpGet("count")]
     public IActionResult GetUsersCount() {
       return Ok(_context.Users.Count());
+    }
+
+    [HttpGet("qr-login-code")]
+    public IActionResult GetQrLoginCode() {
+      var qrCode = QRCodeWriter.CreateQrCode("https://nussmueller.dev", 300, QrVersion: 4);
+      var qrCodeImage = qrCode.ToBitmap();
+
+      using (var stream = qrCodeImage.ToStream(ImageFormat.Jpeg)) {
+        var byteArray = stream.ToArray();
+        return File(byteArray, "image/jpeg");
+      }
     }
 
     [HttpPost("register")]

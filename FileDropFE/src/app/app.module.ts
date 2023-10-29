@@ -2,18 +2,17 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { DateTimeInterceptor } from './config/date-time.interceptor';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { AngularSvgIconModule } from 'angular-svg-icon';
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LoaderComponent } from './components/loader/loader.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { PortalComponent } from './components/portal/portal.component';
 import { OverviewComponent } from './pages/overview/overview.component';
 import { UploadComponent } from './pages/upload/upload.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -22,7 +21,6 @@ import { environment } from '../environments/environment';
     OverviewComponent,
     LoginFormComponent,
     PortalComponent,
-    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,9 +30,7 @@ import { environment } from '../environments/environment';
     AngularSvgIconModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [

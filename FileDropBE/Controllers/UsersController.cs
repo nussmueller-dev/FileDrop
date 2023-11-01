@@ -1,16 +1,12 @@
 ﻿using FileDropBE.BindingModels;
 using FileDropBE.Database;
 using FileDropBE.Logic;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
-using System.IO;
-using System;
 using System.Linq;
-using IronBarCode;
-using static IronSoftware.Drawing.AnyBitmap;
 using FileDropBE.Attributes;
-using FileDropBE.Hubs;
-using Microsoft.AspNetCore.SignalR;
+using QRCoder;
+using System.IO;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -43,13 +39,16 @@ namespace FileDropBE.Controllers {
 
     [HttpGet("qr-code")]
     public IActionResult GetQrCode([FromQuery] string url) {
-      var qrCode = QRCodeWriter.CreateQrCode(url, 300, QRCodeWriter.QrErrorCorrectionLevel.Medium);
-      var qrCodeImage = qrCode.ToBitmap();
+      using QRCodeGenerator qrGenerator = new QRCodeGenerator();
+      using QRCodeData qrCodeData = qrGenerator.CreateQrCode(url, QRCodeGenerator.ECCLevel.Q);
+      using QRCode qrCode = new QRCode(qrCodeData);
 
-      using (var stream = qrCodeImage.ToStream(ImageFormat.Jpeg)) {
-        var byteArray = stream.ToArray();
-        return File(byteArray, "image/jpeg");
-      }
+      SixLabors.ImageSharp.Image image = qrCode.GetGraphic(10);
+
+      using MemoryStream stream = new MemoryStream();
+      image.Save(stream, new JpegEncoder());
+
+      return File(stream.ToArray(), "image/jpeg");
     }
 
     [Authorize]

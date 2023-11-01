@@ -13,6 +13,8 @@ import { LoginFormComponent } from './components/login-form/login-form.component
 import { PortalComponent } from './components/portal/portal.component';
 import { OverviewComponent } from './pages/overview/overview.component';
 import { UploadComponent } from './pages/upload/upload.component';
+import { QrLoginComponent } from './pages/qr-login/qr-login.component';
+import { AcceptQrloginComponent } from './pages/accept-qrlogin/accept-qrlogin.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { UploadComponent } from './pages/upload/upload.component';
     OverviewComponent,
     LoginFormComponent,
     PortalComponent,
+    QrLoginComponent,
+    AcceptQrloginComponent,
   ],
   imports: [
     BrowserModule,

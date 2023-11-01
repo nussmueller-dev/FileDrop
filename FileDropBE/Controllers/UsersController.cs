@@ -7,8 +7,10 @@ using System.IO;
 using System;
 using System.Linq;
 using IronBarCode;
-using static System.Net.Mime.MediaTypeNames;
 using static IronSoftware.Drawing.AnyBitmap;
+using FileDropBE.Attributes;
+using FileDropBE.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,19 +30,48 @@ namespace FileDropBE.Controllers {
     }
 
     [HttpGet("count")]
+    [Produces("application/json")]
     public IActionResult GetUsersCount() {
       return Ok(_context.Users.Count());
     }
 
-    [HttpGet("qr-login-code")]
+    [HttpGet("qrlogin-code")]
+    [Produces("application/json")]
     public IActionResult GetQrLoginCode() {
-      var qrCode = QRCodeWriter.CreateQrCode("https://nussmueller.dev", 300, QrVersion: 4);
+      return Ok(_userLogic.CreateQrLogin());
+    }
+
+    [HttpGet("qr-code")]
+    public IActionResult GetQrCode([FromQuery] string url) {
+      var qrCode = QRCodeWriter.CreateQrCode(url, 300, QRCodeWriter.QrErrorCorrectionLevel.Medium);
       var qrCodeImage = qrCode.ToBitmap();
 
       using (var stream = qrCodeImage.ToStream(ImageFormat.Jpeg)) {
         var byteArray = stream.ToArray();
         return File(byteArray, "image/jpeg");
       }
+    }
+
+    [Authorize]
+    [HttpPost("accept-qrlogin")]
+    public IActionResult AcceptQrLogin([FromBody] AcceptQrLoginBindingModel model) {
+      if (_userLogic.AcceptQrLogin(model)) {
+        return Ok();
+      } else {
+        return BadRequest();
+      }
+    }
+
+    [HttpPost("login/qr")]
+    [Produces("application/json")]
+    public IActionResult LoginUserQr([FromBody] QrLoginBindingModel model) {
+      var acceptedModel = _userLogic.GetAcceptedQrLoginModelFromToken(model.Token);
+
+      if (acceptedModel == null) {
+        return Unauthorized();
+      }
+
+      return Ok(_userLogic.BuildToken(acceptedModel.User, acceptedModel.SessionVallidForHours));
     }
 
     [HttpPost("register")]

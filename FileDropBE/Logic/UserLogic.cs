@@ -1,9 +1,13 @@
-﻿using FileDropBE.Database;
+﻿using FileDropBE.BindingModels;
+using FileDropBE.Database;
 using FileDropBE.Database.Entities;
+using FileDropBE.Hubs;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -18,15 +22,54 @@ namespace FileDropBE.Logic {
     private readonly IConfiguration _configuration;
     private readonly DB_Context _context;
     private readonly CurrentUserHelper _currentUserHelper;
+    private readonly IHubContext<LoginHub> _loginHub;
 
-    public UserLogic(IConfiguration configuration, DB_Context context, CurrentUserHelper currentUserHelper) {
+    private static IList<string> QrLoginTokens = new List<string>();
+    private static IList<AcceptQrLoginBindingModel> AcceptedQrLoginModels = new List<AcceptQrLoginBindingModel>();
+
+    public UserLogic(IConfiguration configuration, DB_Context context, CurrentUserHelper currentUserHelper, IHubContext<LoginHub> loginHub) {
       _configuration = configuration;
       _context = context;
       _currentUserHelper = currentUserHelper;
+      _loginHub = loginHub;
 
       if (JwtKey == null) {
         JwtKey = GenerateRandomString(104);
       }
+    }
+
+    public string CreateQrLogin() {
+      var token = GenerateRandomString(56)
+        .Replace(" ", "_")
+        .Replace("+", "_")
+        .Replace("&", "-");
+      QrLoginTokens.Add(token);
+
+      return token;
+    }
+
+    public bool AcceptQrLogin(AcceptQrLoginBindingModel model) {
+      if (!QrLoginTokens.Contains(model.Token)) {
+        return false;
+      }
+
+      model.User = _currentUserHelper.CurrentUser;
+
+      QrLoginTokens.Remove(model.Token);
+      AcceptedQrLoginModels.Add(model);
+      InformAboutQrLoginAccepted();
+
+      return true;
+    }
+
+    public AcceptQrLoginBindingModel GetAcceptedQrLoginModelFromToken(string token) {
+      var model = AcceptedQrLoginModels.FirstOrDefault(x => x.Token == token);
+
+      if (model != null) {
+        AcceptedQrLoginModels.Remove(model);
+      }
+
+      return model;
     }
 
     public string HashPassword(string password, string salt) {
@@ -74,7 +117,7 @@ namespace FileDropBE.Logic {
       return user;
     }
 
-    public string BuildToken(User user) {
+    public string BuildToken(User user, double? validForHours = null) {
       var key = JwtKey;
       var issuer = _configuration["Jwt:Issuer"];
 
@@ -83,10 +126,14 @@ namespace FileDropBE.Logic {
             new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
         };
 
+      if (validForHours is null) {
+        validForHours = EXPIRY_DURATION_HOURS;
+      }
+
+      DateTime? tokenExpireDate = validForHours == 0 ? DateTime.Now.AddYears(10) : DateTime.Now.AddHours(validForHours.Value);
       var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
       var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-      var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims,
-          expires: DateTime.Now.AddHours(EXPIRY_DURATION_HOURS), signingCredentials: credentials);
+      var tokenDescriptor = new JwtSecurityToken(issuer, issuer, claims, expires: tokenExpireDate, signingCredentials: credentials);
 
       return new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
     }
@@ -110,6 +157,10 @@ namespace FileDropBE.Logic {
 
     private string GenerateRandomString(int length) {
       return Convert.ToBase64String(RandomNumberGenerator.GetBytes(length));
+    }
+
+    private void InformAboutQrLoginAccepted() {
+      _loginHub.Clients.All.SendAsync("QrLoginAccepted");
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as _ from 'lodash';
 import { DateTime } from 'luxon';
 import { FileViewModel } from 'src/app/shared/models/file-view-model';
@@ -13,7 +13,7 @@ import { UserService } from './../../shared/services/user.service';
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent implements OnInit, OnDestroy {
   private signalrConnection: SignalrConnection;
   isLoggedIn = false;
   token: string = '';

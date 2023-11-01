@@ -1,0 +1,4 @@
+<div class="check-box" [class.checked]="checked" (click)="clicked()">
+  <img class="tick" src="assets/icons/check-icon.svg">
+</div>
+<label *ngIf="text" class="text" (click)="clicked()">{{text}}</label>

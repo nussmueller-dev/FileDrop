@@ -15,6 +15,7 @@ import { OverviewComponent } from './pages/overview/overview.component';
 import { UploadComponent } from './pages/upload/upload.component';
 import { QrLoginComponent } from './pages/qr-login/qr-login.component';
 import { AcceptQrloginComponent } from './pages/accept-qrlogin/accept-qrlogin.component';
+import { CheckBoxComponent } from './components/check-box/check-box.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { AcceptQrloginComponent } from './pages/accept-qrlogin/accept-qrlogin.co
     PortalComponent,
     QrLoginComponent,
     AcceptQrloginComponent,
+    CheckBoxComponent,
   ],
   imports: [
     BrowserModule,

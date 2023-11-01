@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.check-box,
+.text {
+  cursor: pointer;
+}
+
+.check-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  width: 20px;
+  border: 2px solid #03a9f4;
+  border-radius: 5px;
+
+  &.checked {
+    background-color: #03a9f4;
+
+    .tick {
+      opacity: 1;
+    }
+  }
+
+  .tick {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+.text {
+  margin-left: 10px;
+  color: #868686;
+}

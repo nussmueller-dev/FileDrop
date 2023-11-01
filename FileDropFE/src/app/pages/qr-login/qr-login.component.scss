@@ -1,20 +1,24 @@
-:host{
+:host {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-  >* {
+  > * {
     margin-top: 20px;
   }
 }
 
-h1{
+h1 {
   font-size: 40px;
   font-weight: bold;
 }
 
-p{
-font-size: 25px;
+p {
+  font-size: 25px;
   max-width: 700px;
   text-align: center;
+}
+
+.qr-code {
+  height: 300px;
 }

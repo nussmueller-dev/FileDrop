@@ -52,6 +52,6 @@ export class QrLoginComponent implements OnInit, OnDestroy {
   }
 
   cancel(){
-    this.router.navigate(['']);
+    this.router.navigate(['overview']);
   }
 }

@@ -8,7 +8,7 @@ import { UserBindingModel } from './../../shared/models/user-binding-model';
 })
 export class LoginFormComponent {
   @Output() loginChange = new EventEmitter<UserBindingModel>();
-  bindingModel = new UserBindingModel('', '');
+  bindingModel = new UserBindingModel('', '', false);
 
   constructor() {}
 

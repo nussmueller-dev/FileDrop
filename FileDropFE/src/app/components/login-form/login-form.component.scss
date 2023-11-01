@@ -73,11 +73,26 @@
   font-size: 18px;
 }
 
-.forgot {
+.forgot,
+.remember {
   margin-top: 30px;
   color: #555;
 }
 
 .forgot a {
   color: #ff0067;
+}
+
+.remember {
+  display: flex;
+  align-items: center;
+  color: #868686;
+}
+
+.submit {
+  margin-top: 10px !important;
+}
+
+label {
+  user-select: none;
 }

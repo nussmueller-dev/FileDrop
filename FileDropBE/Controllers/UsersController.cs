@@ -85,7 +85,7 @@ namespace FileDropBE.Controllers {
       _context.Users.Add(user);
       _context.SaveChanges();
 
-      return Ok(_userLogic.BuildToken(user));
+      return Ok(_userLogic.BuildToken(user, bindingModel.Remember ? 0 : null));
     }
 
     [HttpPost("login")]
@@ -97,7 +97,7 @@ namespace FileDropBE.Controllers {
         return Unauthorized();
       }
 
-      return Ok(_userLogic.BuildToken(user));
+      return Ok(_userLogic.BuildToken(user, bindingModel.Remember ? 0 : null));
     }
   }
 }

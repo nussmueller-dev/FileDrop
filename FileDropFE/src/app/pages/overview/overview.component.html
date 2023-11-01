@@ -4,7 +4,7 @@
   </a>
 </header>
 <main *ngIf="!isLoggedIn">
-  <app-login-form (loginChange)="login($event)"></app-login-form>
+  <app-login-form [isRegister]="usersCount === 0" (loginChange)="login($event)"></app-login-form>
 </main>
 <main *ngIf="isLoggedIn">
   <div class="file-list">

@@ -18,7 +18,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   token: string = '';
   files = new Array<FileViewModel>();
-  usersCount = 0;
+  usersCount = 1;
 
   load: Function = () => {
     this.loadFiles();
@@ -42,6 +42,8 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     let token = localStorage.getItem('token');
+
+    this.usersCount = await this.userService.getUsersCount();
 
     if (token) {
       this.token = token;
@@ -69,7 +71,7 @@ export class OverviewComponent implements OnInit, OnDestroy {
   }
 
   async login(bindingModel: UserBindingModel) {
-    if (this.usersCount === 0) {
+    if (this.usersCount === 1) {
       this.usersCount = await this.userService.getUsersCount();
     }
 

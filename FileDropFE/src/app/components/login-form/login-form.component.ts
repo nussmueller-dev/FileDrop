@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { UserBindingModel } from './../../shared/models/user-binding-model';
 
 @Component({
@@ -7,6 +7,7 @@ import { UserBindingModel } from './../../shared/models/user-binding-model';
   styleUrls: ['./login-form.component.scss'],
 })
 export class LoginFormComponent {
+  @Input() isRegister: boolean = false;
   @Output() loginChange = new EventEmitter<UserBindingModel>();
   bindingModel = new UserBindingModel('', '', false);
 

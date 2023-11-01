@@ -50,4 +50,8 @@ export class QrLoginComponent implements OnInit, OnDestroy {
     localStorage.setItem('token', authToken);
     this.router.navigate(['overview'])
   }
+
+  cancel(){
+    this.router.navigate(['']);
+  }
 }
